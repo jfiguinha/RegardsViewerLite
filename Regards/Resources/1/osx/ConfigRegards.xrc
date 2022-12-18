@@ -153,7 +153,7 @@
 								</content>
 								<default>-1</default>
 								<pos>0,0</pos>
-								<size>190,70</size>
+								<size>380,70</size>
 							</object>							
 							<object class="wxStaticBox" name="sbDiaporama">
 								<label>Diaporama Sequence</label>
@@ -173,7 +173,7 @@
 							<object class="wxStaticBox" name="sbVideoDecoderHard">
 								<label>Video Decoder Hardware</label>
 								<pos>0,150</pos>
-								<size>190,70</size>
+								<size>380,70</size>
 							</object>
 							<object class="wxComboBox" name="ID_CBVIDEODECODERHARD">
 								<pos>10,170</pos>
@@ -184,20 +184,6 @@
 									<item>videotoolbox</item>
 								</content>
 							</object>		
-							<object class="wxStaticBox" name="sbVideoEncoderHard">
-								<label>Video Encoder Hardware</label>
-								<pos>190,150</pos>
-								<size>190,70</size>
-							</object>
-							<object class="wxComboBox" name="ID_CBVIDEOENCODERHARD">
-								<pos>200,170</pos>
-								<size>170,20</size>
-								<value>none</value>
-								<content>
-									<item>none</item>
-									<item>videotoolbox</item>
-								</content>
-							</object>	
 							<object class="wxRadioBox" name="ID_RBOPENGLOPENCLINTEROP">
 								<label>OpenCL OpenGL Interop</label>
 								<style>wxRA_SPECIFY_COLS</style>
@@ -207,7 +193,7 @@
 								</content>
 								<default>-1</default>
 								<pos>0,220</pos>
-								<size>190,70</size>
+								<size>380,70</size>
 							</object>							
 						</object>
 					</object>
