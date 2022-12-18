@@ -14,15 +14,11 @@
 #include "AnimationToolbar.h"
 #include "PanelPhotoWnd.h"
 #include <ConvertUtility.h>
-#include "ListPicture.h"
 #include "WindowManager.h"
 #include "ThumbnailViewerVideo.h"
 #include <SqlPhotos.h>
 #include <ffplaycore.h>
 #include "ThumbnailViewerPicture.h"
-#ifndef __NOFACE_DETECTION__
-#include "ListFace.h"
-#endif
 #include "ViewerParam.h"
 #include "PanelInfosWnd.h"
 #include <PanelWithClickToolbar.h>
@@ -45,8 +41,6 @@ using namespace Regards::FiltreEffet;
 
 #define wxEVENT_ENDLOADPICTURE 1001
 
-#define WINDOW_FACE 2
-#define WINDOW_EXPLORER 3
 #define WINDOW_VIEWER 1
 #define WINDOW_PICTURE 4
 
@@ -206,24 +200,10 @@ CCentralWindow::CCentralWindow(wxWindow* parent, wxWindowID id,
 	previewWindow = new CPreviewWnd(windowManager, PREVIEWVIEWERID);
 	windowManager->AddWindow(previewWindow, Pos::wxCENTRAL, false, 0, rect, PREVIEWVIEWERID, false);
 
-
-	if (viewerTheme != nullptr)
-	{
-		listPicture = new CListPicture(windowManager, LISTPICTUREID);
-		listPicture->Show(false);
-	}
-
-	if (viewerTheme != nullptr)
-	{
-		listFace = new CListFace(windowManager, LISTFACEID);
-		listFace->Show(false);
-	}
-
 	Connect(wxEVT_ANIMATIONTIMERSTOP, wxCommandEventHandler(CCentralWindow::StopAnimationEvent));
 	Connect(wxTIMER_DIAPORAMATIMERSTART, wxCommandEventHandler(CCentralWindow::StartDiaporamaMessage));
 
 	Connect(VIDEO_END_ID, wxCommandEventHandler(CCentralWindow::OnVideoEnd));
-	Connect(wxEVENT_CHANGETYPEAFFICHAGE, wxCommandEventHandler(CCentralWindow::ChangeTypeAffichage));
 	Connect(wxEVENT_SETMODEVIEWER, wxCommandEventHandler(CCentralWindow::SetMode));
 	Connect(VIDEO_UPDATE_ID, wxCommandEventHandler(CCentralWindow::SetVideoPos));
 	Connect(wxTIMER_ANIMATION, wxEVT_TIMER, wxTimerEventHandler(CCentralWindow::OnTimerAnimation), nullptr, this);
@@ -431,26 +411,10 @@ wxString CCentralWindow::ImageSuivante(const bool& loadPicture)
 	if (windowMode)
 	{
 		int numItem = 0;
-		if (windowMode == WINDOW_EXPLORER)
+		if (thumbnailPicture != nullptr)
 		{
-			if (listPicture != nullptr)
-			{
-				numItem = listPicture->ImageSuivante();
-				localFilename = listPicture->GetFilename(numItem);
-			}
-		}
-		else if (windowMode == WINDOW_VIEWER || windowMode == WINDOW_PICTURE)
-		{
-			if (thumbnailPicture != nullptr)
-			{
-				numItem = thumbnailPicture->ImageSuivante();
-				localFilename = thumbnailPicture->GetFilename(numItem);
-			}
-		}
-		else if (windowMode == WINDOW_FACE)
-		{	
-			numItem = listFace->ImageSuivante();
-			localFilename = listFace->GetFilename(numItem);
+			numItem = thumbnailPicture->ImageSuivante();
+			localFilename = thumbnailPicture->GetFilename(numItem);
 		}
 	}
 
@@ -469,22 +433,12 @@ wxString CCentralWindow::ImageFin(const bool& loadPicture)
 	if (windowMode)
 	{
 		int numItem = 0;
-		if (windowMode == WINDOW_EXPLORER)
+		if (thumbnailPicture != nullptr)
 		{
-			if (listPicture != nullptr)
-			{
-				numItem = listPicture->ImageFin();
-				localFilename = listPicture->GetFilename(numItem);
-			}
+			numItem = thumbnailPicture->ImageFin();
+			localFilename = thumbnailPicture->GetFilename(numItem);
 		}
-		else if (windowMode == WINDOW_VIEWER || windowMode == WINDOW_PICTURE)
-		{
-			if (thumbnailPicture != nullptr)
-			{
-				numItem = thumbnailPicture->ImageFin();
-				localFilename = thumbnailPicture->GetFilename(numItem);
-			}
-		}
+		
 	}
 
 
@@ -508,22 +462,13 @@ wxString CCentralWindow::ImageDebut(const bool& loadPicture)
 	if (windowMode)
 	{
 		int numItem = 0;
-		if (windowMode == WINDOW_EXPLORER)
+
+		if (thumbnailPicture != nullptr)
 		{
-			if (listPicture != nullptr)
-			{
-				numItem = listPicture->ImageDebut();
-				localFilename = listPicture->GetFilename(numItem);
-			}
+			numItem = thumbnailPicture->ImageDebut();
+			localFilename = thumbnailPicture->GetFilename(numItem);
 		}
-		else if (windowMode == WINDOW_VIEWER || windowMode == WINDOW_PICTURE)
-		{
-			if (thumbnailPicture != nullptr)
-			{
-				numItem = thumbnailPicture->ImageDebut();
-				localFilename = thumbnailPicture->GetFilename(numItem);
-			}
-		}
+
 	}
 
 	if (localFilename != "" && loadPicture)
@@ -541,27 +486,14 @@ wxString CCentralWindow::ImagePrecedente(const bool& loadPicture)
 	if (windowMode)
 	{
 		int numItem = 0;
-		if (windowMode == WINDOW_EXPLORER)
+
+		if (thumbnailPicture != nullptr)
 		{
-			if (listPicture != nullptr)
-			{
-				numItem = listPicture->ImagePrecedente();
-				localFilename = listPicture->GetFilename(numItem);
-			}
+			numItem = thumbnailPicture->ImagePrecedente();
+			localFilename = thumbnailPicture->GetFilename(numItem);
 		}
-		else if (windowMode == WINDOW_VIEWER || windowMode == WINDOW_PICTURE)
-		{
-			if (thumbnailPicture != nullptr)
-			{
-				numItem = thumbnailPicture->ImagePrecedente();
-				localFilename = thumbnailPicture->GetFilename(numItem);
-			}
-		}
-		else if (windowMode == WINDOW_FACE)
-		{
-			numItem = listFace->ImagePrecedente();
-			localFilename = listFace->GetFilename(numItem);
-		}
+		
+
 	}
 
 
@@ -579,27 +511,12 @@ int CCentralWindow::LoadPicture(const wxString& filename, const bool &refresh)
 	//return RefreshPicture(filename);
 	int numLocalItem = 0;
 
-	if (windowMode == WINDOW_EXPLORER)
+
+	if (thumbnailPicture != nullptr)
 	{
-		if (listPicture != nullptr)
-		{
-			numLocalItem = listPicture->GetNumItem();
-		}
+		numLocalItem = thumbnailPicture->GetNumItem();
 	}
-	else if (windowMode == WINDOW_VIEWER || windowMode == WINDOW_PICTURE)
-	{
-		if (thumbnailPicture != nullptr)
-		{
-			numLocalItem = thumbnailPicture->GetNumItem();
-		}
-	}
-	else if (windowMode == WINDOW_FACE)
-	{
-		if (listFace != nullptr)
-		{
-			numLocalItem = listFace->GetNumItem();
-		}
-	}
+
 
 	if (filename != this->filename || refresh)
 	{
@@ -719,35 +636,12 @@ int CCentralWindow::LoadPicture(const wxString& filename, const bool &refresh)
 
 	if (thumbnailPicture != nullptr)
 		thumbnailPicture->SetActifItem(GetPhotoId(filename), true);
-	if (listPicture != nullptr)
-		listPicture->SetActifItem(GetPhotoId(filename), true);
-	if (listFace != nullptr)
-		listFace->SetActifItem(GetPhotoId(filename), true);
 
 	int outItem = 0;
 
-	if (windowMode == WINDOW_EXPLORER)
+	if (thumbnailPicture != nullptr)
 	{
-		if (listPicture != nullptr)
-		{
-			outItem = listPicture->GetNumItem();
-		}
-	}
-	else if (windowMode == WINDOW_VIEWER || windowMode == WINDOW_PICTURE)
-	{
-		if (thumbnailPicture != nullptr)
-		{
-			outItem = thumbnailPicture->GetNumItem();
-		}
-	}
-	else if (windowMode == WINDOW_FACE)
-	{
-
-
-		if (listFace != nullptr)
-		{
-			outItem = listFace->GetNumItem();
-		}
+		outItem = thumbnailPicture->GetNumItem();
 	}
 
 	if (outItem != numLocalItem)
@@ -1209,33 +1103,14 @@ void CCentralWindow::LoadAnimationBitmap(const wxString& filename, const int& nu
 }
 
 
-void CCentralWindow::ChangeTypeAffichage(wxCommandEvent& event)
-{
-	if (listPicture != nullptr)
-	{
-		const long typeAffichage = event.GetExtraLong();
-		listPicture->ChangeTypeAffichage(typeAffichage);
-	}
-}
-
 vector<wxString> CCentralWindow::GetFileList()
 {
 	vector<wxString> listFile;
 	if (windowMode)
 	{
-		if (windowMode == WINDOW_EXPLORER)
+		if (thumbnailPicture != nullptr)
 		{
-			if (listPicture != nullptr)
-			{
-				listFile = listPicture->GetFileList();
-			}
-		}
-		else if (windowMode == WINDOW_VIEWER || windowMode == WINDOW_PICTURE)
-		{
-			if (thumbnailPicture != nullptr)
-			{
-				listFile = thumbnailPicture->GetFileList();
-			}
+			listFile = thumbnailPicture->GetFileList();
 		}
 	}
 	return listFile;
@@ -1243,9 +1118,6 @@ vector<wxString> CCentralWindow::GetFileList()
 
 void CCentralWindow::SetListeFile(const wxString& filename)
 {
-	if (listPicture != nullptr)
-		listPicture->SetListeFile();
-
 	if (thumbnailPicture != nullptr)
 		thumbnailPicture->SetListeFile();
 
@@ -1345,9 +1217,6 @@ void CCentralWindow::SetMode(wxCommandEvent& event)
 	previewWindow->SetNormalMode();
 	panelInfosWindow->Show(false);
 	panelInfosClick->Show(false);
-	if (faceDetection)
-		listFace->Show(false);
-	listPicture->Show(false);
 
 	if (windowInit)
 	{
@@ -1427,90 +1296,6 @@ void CCentralWindow::SetMode(wxCommandEvent& event)
 		}
 		break;
 
-
-	case WINDOW_FACE:
-		{
-			wxWindow* window = this->FindWindowById(PREVIEWVIEWERID);
-			if (window != nullptr)
-			{
-				wxCommandEvent evt(wxEVENT_HIDESCREENBUTTON);
-				window->GetEventHandler()->AddPendingEvent(evt);
-			}
-
-			if (faceDetection)
-			{
-				panelInfosClick->Show(true);
-				if (!windowManager->GetWindowIsShow(Pos::wxLEFT))
-					windowManager->ShowWindow(Pos::wxLEFT);
-
-				if (windowManager->GetWindowIsShow(Pos::wxBOTTOM))
-					windowManager->HideWindow(Pos::wxBOTTOM);
-				if (windowManager->GetWindowIsShow(Pos::wxTOP))
-					windowManager->HideWindow(Pos::wxTOP);
-
-				listFace->Show(true);
-				panelInfosClick->SetWindow(listFace);
-				panelInfosClick->Show(true);
-				panelInfosClick->SetTitle("Face List");
-
-				if (!windowManager->GetWindowIsShow(Pos::wxRIGHT))
-				{
-					windowManager->HidePaneWindow(Pos::wxRIGHT);
-					windowManager->ShowPaneWindow(Pos::wxRIGHT);
-					windowManager->ShowWindow(Pos::wxRIGHT);
-				}
-				else
-				{
-					windowManager->HidePaneWindow(Pos::wxRIGHT);
-					windowManager->ShowPaneWindow(Pos::wxRIGHT);
-				}
-
-				if (windowInit)
-					if (!showInfos)
-						windowManager->HidePaneWindow(Pos::wxRIGHT);
-			}
-			break;
-		}
-	case WINDOW_EXPLORER:
-		{
-			wxWindow* window = this->FindWindowById(PREVIEWVIEWERID);
-			if (window != nullptr)
-			{
-				wxCommandEvent evt(wxEVENT_HIDESCREENBUTTON);
-				window->GetEventHandler()->AddPendingEvent(evt);
-			}
-
-			panelInfosClick->Show(true);
-			if (!windowManager->GetWindowIsShow(Pos::wxLEFT))
-				windowManager->ShowWindow(Pos::wxLEFT);			
-
-			if (windowManager->GetWindowIsShow(Pos::wxBOTTOM))
-				windowManager->HideWindow(Pos::wxBOTTOM);
-			if (windowManager->GetWindowIsShow(Pos::wxTOP))
-				windowManager->HideWindow(Pos::wxTOP);
-
-			listPicture->Show(true);
-			panelInfosClick->SetWindow(listPicture);
-			panelInfosClick->Show(true);
-			panelInfosClick->SetTitle("Picture List");
-
-			if (!windowManager->GetWindowIsShow(Pos::wxRIGHT))
-			{
-				windowManager->HidePaneWindow(Pos::wxRIGHT);
-				windowManager->ShowPaneWindow(Pos::wxRIGHT);
-				windowManager->ShowWindow(Pos::wxRIGHT);
-			}
-			else
-			{
-				windowManager->HidePaneWindow(Pos::wxRIGHT);
-				windowManager->ShowPaneWindow(Pos::wxRIGHT);
-			}
-			if (windowInit)
-				if (!showInfos)
-					windowManager->HidePaneWindow(Pos::wxRIGHT);
-		}
-
-		break;
 	case WINDOW_PICTURE:
 		{
 			wxWindow* window = this->FindWindowById(PREVIEWVIEWERID);

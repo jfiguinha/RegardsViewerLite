@@ -27,7 +27,6 @@ namespace Regards
 
 			void SetEffectActif();
 			void SetEffectInactif();
-            void SetCriteriaPush();
 
 			void SetHistogramPush();
             void SetInfosPush();
@@ -51,7 +50,6 @@ namespace Regards
 			CToolbarTexte * videoeffect;
 			CToolbarTexte * map;
 			CToolbarTexte * effectParameter;
-            CToolbarTexte * criteria;
 			CToolbarTexte* histogramParameter;
 
 		};

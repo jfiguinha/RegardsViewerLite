@@ -42,7 +42,6 @@ namespace Regards
 			cv::Mat GetMat();
 			virtual ~COpenCLEffect();
             int LensDistortionFilter(const int &size);
-			int BokehEffect(const int& radius, const int& boxsize, const int& nbFace, const wxRect & listFace) { return -1; };
 			int VignetteEffect(const double& radius = 1.0, const double& power = 0.8) { return -1; };
 			int MeanShift(const float& fSpatialRadius, const float& fColorRadius) { return -1; };
 			int BilateralFilter(const int& fSize, const int& sigmaX, const int& sigmaP);
@@ -51,7 +50,6 @@ namespace Regards
 			void Interpolation(const int &widthOut, const int &heightOut, const wxRect &rc, const int &method, int flipH, int flipV, int angle, int ratio);
 			int CartoonifyImage(const int & mode) { return -1; };
 			int NiveauDeGris();
-			int RedEye(){ return -1; };
 			int HistogramNormalize(){ return -1; };
 			int HistogramEqualize(){ return -1; };
 			int HQDn3D(const double & LumSpac, const double & ChromSpac, const double & LumTmp, const double & ChromTmp);

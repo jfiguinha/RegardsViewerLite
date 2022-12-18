@@ -88,9 +88,6 @@
     <ClCompile Include="SlideToolbar.cpp">
       <Filter>Video\Core\Toolbar</Filter>
     </ClCompile>
-    <ClCompile Include="ffmpeg_transcoding.cpp">
-      <Filter>Video\Core\Encoding</Filter>
-    </ClCompile>
     <ClCompile Include="BitmapFusionFilter.cpp">
       <Filter>Bitmap\PostEffect</Filter>
     </ClCompile>
@@ -103,14 +100,8 @@
     <ClCompile Include="ShowElement.cpp">
       <Filter>Display</Filter>
     </ClCompile>
-    <ClCompile Include="FFmpegTranscodingPimpl.cpp">
-      <Filter>Video\Core\Encoding</Filter>
-    </ClCompile>
     <ClCompile Include="..\include\header.cpp">
       <Filter>header</Filter>
-    </ClCompile>
-    <ClCompile Include="MFTEncoding.cpp">
-      <Filter>Video\Core\Encoding</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -213,9 +204,6 @@
     <ClInclude Include="SlideToolbar.h">
       <Filter>Video\Core\Toolbar</Filter>
     </ClInclude>
-    <ClInclude Include="ffmpeg_transcoding.h">
-      <Filter>Video\Core\Encoding</Filter>
-    </ClInclude>
     <ClInclude Include="VideoCompressOption.h">
       <Filter>Video</Filter>
     </ClInclude>
@@ -242,12 +230,6 @@
     </ClInclude>
     <ClInclude Include="ShowElement.h">
       <Filter>Display</Filter>
-    </ClInclude>
-    <ClInclude Include="FFmpegTranscodingPimpl.h">
-      <Filter>Video\Core\Encoding</Filter>
-    </ClInclude>
-    <ClInclude Include="MFTEncoding.h">
-      <Filter>Video\Core\Encoding</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -289,9 +271,6 @@
     </Filter>
     <Filter Include="Video\Core\Toolbar">
       <UniqueIdentifier>{30e1353a-0406-4166-852a-626720695f48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Video\Core\Encoding">
-      <UniqueIdentifier>{21d0ca21-54e3-46c7-bb55-45df9af45d9d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Bitmap\PostEffect">
       <UniqueIdentifier>{d2ded3d8-c62a-4d3f-baf6-98f01aabb7b8}</UniqueIdentifier>

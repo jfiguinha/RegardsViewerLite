@@ -10,7 +10,7 @@ class CImageLoadingFormat;
 
 namespace Regards
 {
-	namespace Scanner
+	namespace Dialog
 	{
 		class CThumbnailSelection : public CWindowMain
 		{

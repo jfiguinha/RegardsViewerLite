@@ -14,7 +14,6 @@ CToolbarInfos::CToolbarInfos(wxWindow* parent, wxWindowID id, const CThemeToolba
 	effect = nullptr;
 	map = nullptr;
 	effectParameter = nullptr;
-    criteria = nullptr;
 	this->toolbarInterface = toolbarInterface;
     saveLastPush = true;
 	wxString infos_label = CLibResource::LoadStringFromResource(L"LBLINFOS",1);// L"Infos";
@@ -55,12 +54,6 @@ CToolbarInfos::CToolbarInfos(wxWindow* parent, wxWindowID id, const CThemeToolba
 	videoeffect->SetCommandId(WM_VIDEOEFFECT);
 	videoeffect->SetLibelle(videoeffect_label);
 	navElement.push_back(videoeffect);
-
-    wxString libelleCriteria = CLibResource::LoadStringFromResource(L"LBLCRITERIA", 1);
-    criteria = new CToolbarTexte(themeToolbar.texte);
-    criteria->SetCommandId(WM_CRITERIA);
-    criteria->SetLibelle(libelleCriteria);
-    navElement.push_back(criteria);
 
 	effectParameter = new CToolbarTexte(themeToolbar.texte);
 	effectParameter->SetCommandId(WM_EFFECTPARAMETER);
@@ -142,12 +135,6 @@ void CToolbarInfos::SetEffectActif()
 	effect->SetVisible(true);
 	needToRefresh = true;
 }
-
-void CToolbarInfos::SetCriteriaPush()
-{
-    criteria->SetPush(true);
-}
-
 
 void CToolbarInfos::SetEffectInactif()
 {

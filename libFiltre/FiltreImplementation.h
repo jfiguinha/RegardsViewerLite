@@ -646,39 +646,5 @@ namespace Regards
 					filtreEffet->Negatif();
 			};
 		};
-
-		class CRedEyeFilter : public CDefaultFilter
-		{
-		public:
-			CRedEyeFilter()
-			{
-			};
-
-			~CRedEyeFilter() override
-			{
-			};
-
-			int GetNameFilter() override
-			{
-				return IDM_REDEYE;
-			}
-
-			wxString GetFilterLabel() override
-			{
-				return CLibResource::LoadStringFromResource("LBLfilterRedEye", 1);
-			}
-
-			bool IsOpenCLCompatible() override
-			{
-				return false;
-			}
-
-			void RenderEffect(CFiltreEffet* filtreEffet, CEffectParameter* effectParameter,
-			                  const bool& preview) override
-			{
-				if (filtreEffet != nullptr)
-					filtreEffet->RedEye();
-			};
-		};
 	}
 }

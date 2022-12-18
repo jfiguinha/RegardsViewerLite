@@ -12,7 +12,6 @@
 #include <ImageLoadingFormat.h>
 #include <SqlPhotos.h>
 #include <MetadataExiv2.h>
-#include <DeepLearning.h>
 
 #include "BitmapWndViewer.h"
 
@@ -460,34 +459,6 @@ void CShowElement::OnIdle(wxIdleEvent& evt)
 
 }
 
-//---------------------------------------------------------------------------------------
-//Test FacialRecognition
-//---------------------------------------------------------------------------------------
-void CShowElement::RotateRecognition(void* param)
-{
-	auto threadRotate = static_cast<CThreadRotate*>(param);
-	if (threadRotate != nullptr)
-	{
-		if (!threadRotate->bitmap.empty())
-		{
-			bool fastDetection = true;
-			CRegardsConfigParam* param = CParamInit::getInstance();
-			if (param != nullptr)
-				fastDetection = param->GetFastDetectionFace();
-
-			threadRotate->isReady = true;
-			//cv::flip(threadRotate->bitmap, threadRotate->bitmap, 0);
-			threadRotate->exif = DeepLearning::CDeepLearning::GetExifOrientation(threadRotate->bitmap, fastDetection);
-		}
-
-		if (threadRotate->mainWindow != nullptr)
-		{
-			wxCommandEvent evt(wxEVENT_ROTATEDETECT);
-			evt.SetClientData(threadRotate);
-			threadRotate->mainWindow->GetEventHandler()->AddPendingEvent(evt);
-		}
-	}
-}
 
 void CShowElement::OnRotateDetect(wxCommandEvent& event)
 {
@@ -557,22 +528,7 @@ bool CShowElement::SetBitmap(CImageLoadingFormat* bitmap, const bool& isThumbnai
 		int exif = sqlPhotos.GetPhotoExif(filename);
 		//CMetadataExiv2 metaData(bitmap->GetFilename());
 		CLibPicture libPicture;
-		if (exif == -1 && configRegards->GetDetectOrientation())
-		{
-			if (!isThumbnail && libPicture.TestIsPicture(bitmap->GetFilename()) && DeepLearning::CDeepLearning::IsResourceReady())
-			{
-				bool fastDetection = true;
-				CRegardsConfigParam* param = CParamInit::getInstance();
-				if (param != nullptr)
-					fastDetection = param->GetFastDetectionFace();
-
-				int exif = DeepLearning::CDeepLearning::GetExifOrientation(bitmap->GetOpenCVPicture(), fastDetection);
-				sqlPhotos.InsertPhotoExif(filename, exif);
-				bitmap->SetOrientation(exif);
-			}
-
-		}
-		else if (configRegards->GetDetectOrientation())
+		if (configRegards->GetDetectOrientation())
 		{
 			bitmap->SetOrientation(exif);
 		}

@@ -15,8 +15,6 @@ public:
 	int HistogramEqualize();
     cv::UMat GetUMat();
 	cv::Mat GetMat();
-	int RedEye();
-	int BokehEffect(const int& radius, const int& boxsize, const int& nbFace, const wxRect & listFace);
 	int HQDn3D(const double & LumSpac, const double & ChromSpac, const double & LumTmp, const double & ChromTmp);
 	int BilateralFilter(const int& fSize, const int& sigmaX, const int& sigmaP);
 	int NlmeansFilter(const int& h, const int& hColor, const int& templateWindowSize, const int& searchWindowSize);

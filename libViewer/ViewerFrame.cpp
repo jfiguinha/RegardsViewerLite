@@ -1,7 +1,6 @@
 #include <header.h>
 #include "ViewerFrame.h"
 #include "MainWindow.h"
-#include "PertinenceValue.h"
 #include <BitmapPrintout.h>
 #include "ViewerParamInit.h"
 #include "SQLRemoveData.h"
@@ -20,9 +19,7 @@
 #include <SqlFindFolderCatalog.h>
 #include <libPicture.h>
 #include <SavePicture.h>
-#include <ScannerFrame.h>
 #include <ImageLoadingFormat.h>
-#include "ListFace.h"
 #include "WaitingWindow.h"
 #include <wx/stdpaths.h>
 #include <SqlThumbnail.h>
@@ -187,7 +184,9 @@ CViewerFrame::CViewerFrame(const wxString& title, const wxPoint& pos, const wxSi
 	menuSizeIcon->Append(ID_SIZEICONLESS, labelDecreaseIconSize_link, labelDecreaseIconSize);
 	menuSizeIcon->Append(ID_SIZEICONMORE, labelEnlargeIconSize_link, labelEnlargeIconSize);
 
-	menuFile->Append(ID_EXPORT, "&Export", "Export");
+	menuFile->Append(ID_Configuration, labelConfiguration_link, labelConfiguration);
+	menuFile->AppendSeparator();
+
 #ifdef WIN32
 	menuFile->Append(ID_ASSOCIATE, "&Associate", "Associate");
 #endif
@@ -199,8 +198,7 @@ CViewerFrame::CViewerFrame(const wxString& title, const wxPoint& pos, const wxSi
 #endif
 	menuFile->Append(wxID_PRINT, wxT("&Print..."), wxT("Print"));
 	menuFile->AppendSeparator();
-	menuFile->Append(ID_Configuration, labelConfiguration_link, labelConfiguration);
-	menuFile->AppendSeparator();
+
 	menuFile->Append(wxID_EXIT);
 	auto menuHelp = new wxMenu;
 	menuHelp->Append(wxID_ABOUT);
@@ -211,13 +209,12 @@ CViewerFrame::CViewerFrame(const wxString& title, const wxPoint& pos, const wxSi
 	menuBar->Append(menuHelp, labelHelp);
 	wxFrameBase::SetMenuBar(menuBar);
 
-	wxWindow::SetLabel(wxT("Regards Viewer"));
+	wxWindow::SetLabel(wxT("RegardsViewer Lite"));
 	//Connect(wxEVT_SIZE, wxSizeEventHandler(CViewerFrame::OnSize));
 	Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(CViewerFrame::OnClose));
-	Connect(wxEVENT_CLOSESCANNER, wxCommandEventHandler(CViewerFrame::HideScanner));
 	Connect(wxEVENT_PICTUREENDLOADING, wxCommandEventHandler(CViewerFrame::OnPictureEndLoading));
 	Connect(wxID_PRINT, wxEVT_MENU, wxCommandEventHandler(CViewerFrame::OnPrint));
-	Connect(ID_EXPORT, wxEVT_MENU, wxCommandEventHandler(CViewerFrame::OnExport));
+
 #ifdef WIN32
 	Connect(ID_ASSOCIATE, wxEVT_MENU, wxCommandEventHandler(CViewerFrame::OnAssociate));
 #endif
@@ -326,50 +323,7 @@ bool CViewerFrame::CheckDatabase(FolderCatalogVector& folderList)
 	return folderChange;
 }
 
-int CViewerFrame::ShowScanner()
-{
-	if (frameScanner != nullptr)
-	{
-		frameScanner->Show(true);
-		frameScanner->Raise();
-	}
-	else
-	{
-		frameScanner = new CScannerFrame("Regards PDF", mainInterface, wxPoint(50, 50), wxSize(1200, 800));
-		frameScanner->Centre(wxBOTH);
-		frameScanner->Show(true);
-	}
-	const int value = frameScanner->OnOpen();
-	if (value == -1)
-	{
-		frameScanner->Show(false);
-		this->Raise();
-	}
 
-	return value;
-}
-
-void CViewerFrame::OnScanner(wxCommandEvent& event)
-{
-	ShowScanner();
-}
-
-void CViewerFrame::HideScanner(wxCommandEvent& event)
-{
-	if (frameScanner != nullptr)
-	{
-		frameScanner->Show(false);
-	}
-}
-
-void CViewerFrame::OnExport(wxCommandEvent& event)
-{
-	wxString filename = mainWindow->GetFilename();
-	if (filename != "")
-	{
-		CSavePicture::SavePicture(nullptr, nullptr, filename);
-	}
-}
 #ifdef WIN32
 void CViewerFrame::OnAssociate(wxCommandEvent& event)
 {
@@ -849,15 +803,6 @@ void CViewerFrame::OnEraseDatabase(wxCommandEvent& event)
 			wxCommandEvent evt(wxEVT_COMMAND_TEXT_UPDATED, wxEVENT_REFRESHFOLDER);
 			mainWindow->GetEventHandler()->AddPendingEvent(evt);
 		}
-
-#ifndef __NOFACE_DETECTION__
-		auto listFace = static_cast<CListFace*>(this->FindWindowById(LISTFACEID));
-		if (listFace != nullptr)
-		{
-			wxCommandEvent evt(wxEVENT_THUMBNAILREFRESH);
-			listFace->GetEventHandler()->AddPendingEvent(evt);
-		}
-#endif
 	}
 }
 
@@ -874,26 +819,6 @@ void CViewerFrame::OnPageSetup(wxCommandEvent& WXUNUSED(event))
 	(*g_pageSetupData) = pageSetupDialog.GetPageSetupDialogData();
 }
 
-void CViewerFrame::OnFacePertinence(wxCommandEvent& event)
-{
-	CMainParam* viewerParam = CMainParamInit::getInstance();
-	if (viewerParam != nullptr)
-	{
-		double pertinence = viewerParam->GetPertinenceValue();
-		PertinenceValue configFile(this);
-		configFile.SetValue(pertinence);
-		configFile.ShowModal();
-		if (configFile.IsOk())
-		{
-			viewerParam->SetPertinenceValue(configFile.GetValue());
-			if (mainWindow != nullptr)
-			{
-				wxCommandEvent evt(wxEVENT_REFRESHFOLDERLIST);
-				mainWindow->GetEventHandler()->AddPendingEvent(evt);
-			}
-		}
-	}
-}
 #ifdef __WXMAC__
 void CViewerFrame::OnPageMargins(wxCommandEvent& WXUNUSED(event))
 {

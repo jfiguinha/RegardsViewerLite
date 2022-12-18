@@ -34,7 +34,6 @@
 #include "CropFilter.h"
 #include <hqdn3dFilter.h>
 #include <OilPaintingFilter.h>
-#include "BokehFilter.h"
 #include <CartoonFilter.h>
 #include "FiltreImplementation.h"
 #include "LensDistortion.h"
@@ -204,12 +203,6 @@ CFilterWindowParam * CFiltreData::CreateEffectPointer(const int &numFilter)
         break;
     }
 
-    case IDM_FILTRE_BOKEH:
-    {
-        filterEffect = new  CBokehFilter();
-        break;
-    }
-
     case IDM_FILTRE_BILATERAL:
     {
         filterEffect = new  CBilateralFilter();
@@ -268,10 +261,6 @@ CFilterWindowParam * CFiltreData::CreateEffectPointer(const int &numFilter)
 
     case IDM_NEGATIF:
         filterEffect = new CNegatifFilter();
-        break;
-
-    case IDM_REDEYE:
-        filterEffect = new CRedEyeFilter();
         break;
 
 	case IDM_WAVE_EFFECT:

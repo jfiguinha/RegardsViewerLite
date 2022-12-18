@@ -7,7 +7,7 @@ class CImageVideoThumbnail;
 
 namespace Regards
 {
-	namespace Scanner
+	namespace Dialog
 	{
 		class CThumbnailFileSelection : public CThumbnailVertical
 		{

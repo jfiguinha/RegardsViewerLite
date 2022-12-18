@@ -16,7 +16,6 @@
 #include <libPicture.h>
 #include <ConvertUtility.h>
 #include <LoadingResource.h>
-
 #include <LibResource.h>
 #include <FileUtility.h>
 #include <ParamInit.h>

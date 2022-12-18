@@ -227,7 +227,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)libextern\vcpkg\installed\x64-windows\include\IMath;$(SolutionDir)libextern\ffmpeg-master\include;$(SolutionDir)libextern\vcpkg\installed\x64-windows\include;$(SolutionDir)libextern\vcpkg\installed\x64-windows\include\OpenEXR;$(IncludePath);$(VC_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)libextern\cvplot\inc;$(SolutionDir)libextern\vcpkg\installed\x64-windows\include\IMath;$(SolutionDir)libextern\ffmpeg-master\include;$(SolutionDir)libextern\vcpkg\installed\x64-windows\include;$(SolutionDir)libextern\vcpkg\installed\x64-windows\include\OpenEXR;$(IncludePath);$(VC_IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)libextern\rav1e\lib;$(oneMKLLibDir);$(oneTBBLibDir)\vc_mt;$(SolutionDir)libextern\opencv\opencv-4.5.1\build\3rdparty\lib\Debug;$(ICInstallDir)compiler\lib\intel64_win;$(SolutionDir)libextern\ffmpeg-master\lib;$(SolutionDir)\libextern\poppler_windows-master\lib;$(SolutionDir)libextern\qpdf-master\lib;$(SolutionDir)\libExtern\aom\build\Debug;$(SolutionDir)libextern\opencv\opencv-4.5.1\build\lib\Debug;$(SolutionDir)libextern\libOpenCL\lib\x86_64\;$(SolutionDir)libextern\heif-master\build\lib\Debug;$(SolutionDir)\libExtern\x265_2.5\build\vc15-x86_64\Debug;$(SolutionDir)\libExtern\wxWidgets-master\lib\vc_x64_lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(SolutionDir)libextern\vcpkg\installed\x64-windows\Debug\lib;$(SolutionDir)libextern\vcpkg\installed\x64-windows\lib</LibraryPath>
     <EmbedManifest>false</EmbedManifest>
     <TargetName>RegardsViewer</TargetName>
@@ -269,7 +269,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <LibraryPath>$(SolutionDir)libextern\rav1e\lib;$(SolutionDir)libextern\libOpenCL\lib\x86_64\;$(oneTBBLibDir)\vc_mt;$(oneMKLLibDir);$(ICInstallDir)compiler\lib\intel64_win;$(SolutionDir)libextern\ffmpeg-master\lib;$(SolutionDir)\libextern\poppler_windows-master\lib;$(SolutionDir)libextern\qpdf-master\lib;$(SolutionDir)\libExtern\aom\build\Release;$(SolutionDir)libextern\opencv\opencv-4.5.1\build\lib\Release;$(SolutionDir)libextern\vcpkg\installed\x64-windows\lib\;$(SolutionDir)libextern\opencv\opencv-4.5.1\build\3rdparty\lib\Release;$(SolutionDir)libextern\heif-master\build\lib\Release;$(SolutionDir)\libExtern\wxWidgets-master\lib\vc_x64_lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
-    <IncludePath>$(SolutionDir)libextern\ffmpeg-master\include;$(SolutionDir)libextern\vcpkg\installed\x64-windows\include;$(SolutionDir)libextern\vcpkg\installed\x64-windows\include\IMath;$(SolutionDir)libextern\vcpkg\installed\x64-windows\include\OpenEXR;$(IncludePath);$(VC_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)libextern\cvplot\inc;$(SolutionDir)libextern\ffmpeg-master\include;$(SolutionDir)libextern\vcpkg\installed\x64-windows\include;$(SolutionDir)libextern\vcpkg\installed\x64-windows\include\IMath;$(SolutionDir)libextern\vcpkg\installed\x64-windows\include\OpenEXR;$(IncludePath);$(VC_IncludePath)</IncludePath>
     <TargetName>RegardsViewer</TargetName>
     <ExecutablePath>$(ICInstallDir)bin\Intel64;$(ICInstallDir)bin;$(VC_ExecutablePath_x64);$(CommonExecutablePath)</ExecutablePath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
@@ -1155,9 +1155,6 @@ XCOPY /Y "$(SolutionDir)libextern\vcpkg\installed\arm64-windows\bin\ogg.dll"  $(
     <ProjectReference Include="..\LibControl\LibControl.vcxproj">
       <Project>{d1ad7321-2aa9-4feb-938e-578f51ff3f4f}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\libDeepLearning\libDeepLearning.vcxproj">
-      <Project>{578851e0-ad56-4df1-b03f-1b9a0e386fad}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\libDialog\libDialog.vcxproj">
       <Project>{517373bb-6bb1-42a8-bcd1-6108cd51a73f}</Project>
     </ProjectReference>
@@ -1166,9 +1163,6 @@ XCOPY /Y "$(SolutionDir)libextern\vcpkg\installed\arm64-windows\bin\ogg.dll"  $(
     </ProjectReference>
     <ProjectReference Include="..\libResource\libResource.vcxproj">
       <Project>{ae3f398c-b13b-4c98-99e6-6ec349823995}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\libScanner\libScanner.vcxproj">
-      <Project>{b9fab389-b14f-493d-89a4-bac998a11299}</Project>
     </ProjectReference>
     <ProjectReference Include="..\libFiltre\libFiltre.vcxproj">
       <Project>{67274429-0b74-48ab-9b74-0d3e15c825be}</Project>
@@ -1215,9 +1209,6 @@ XCOPY /Y "$(SolutionDir)libextern\vcpkg\installed\arm64-windows\bin\ogg.dll"  $(
     <ProjectReference Include="..\Otherlib\libbpg\Dllbpg\Dllbpg.vcxproj">
       <Project>{9d83fe59-48c2-430d-8fc9-25ca5bb575a8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Otherlib\libffmpeg\libffmpeg.vcxproj">
-      <Project>{ce591fa1-6863-4410-a259-2567261afa51}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Otherlib\libheif\libheif.vcxproj">
       <Project>{27ae55ec-bd2c-4843-8333-26b52bf4fbba}</Project>
     </ProjectReference>
@@ -1261,6 +1252,7 @@ XCOPY /Y "$(SolutionDir)libextern\vcpkg\installed\arm64-windows\bin\ogg.dll"  $(
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\libextern\CvPlot\src\cvplot.cpp" />
     <ClCompile Include="..\Regards\openexr_3\half.cpp" />
     <ClCompile Include="..\Regards\Regards.cpp">
       <WholeProgramOptimization Condition="'$(Configuration)|$(Platform)'=='Release_windows10|x64'">false</WholeProgramOptimization>

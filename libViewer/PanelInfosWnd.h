@@ -4,7 +4,6 @@
 #include "ModificationManager.h"
 #include <wx/webview.h>
 #include <wx/animate.h>
-#include "CriteriaWindow.h"
 #include "PicturePanel.h"
 #include <InfosFileWnd.h>
 #include "FiltreEffect.h"
@@ -60,7 +59,6 @@ namespace Regards
 			CInfoEffectWnd* historyEffectWnd;
 			CThumbnailViewerEffectWnd* thumbnailEffectWnd;
 			CFiltreEffectScrollWnd* filtreEffectWnd;
-			CCriteriaWindow* criteriaTreeWnd;
 			CPicturePanel* picturePanel;
 
 			wxWebView* webBrowser = nullptr;

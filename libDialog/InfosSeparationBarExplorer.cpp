@@ -3,7 +3,7 @@
 #include <WindowMain.h>
 #include <LibResource.h>
 using namespace Regards::Window;
-using namespace Regards::Scanner;
+using namespace Regards::Dialog;
 
 
 CInfosSeparationBarExplorer::~CInfosSeparationBarExplorer(void)

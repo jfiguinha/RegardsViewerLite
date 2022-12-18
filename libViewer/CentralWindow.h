@@ -67,8 +67,6 @@ namespace Regards
 		};
 
 		class CPanelPhotoWnd;
-		class CListFace;
-		class CListPicture;
 		class CThumbnailViewerVideo;
 		class CPanelInfosWnd;
 		class CPreviewWnd;
@@ -138,7 +136,6 @@ namespace Regards
 			void StartDiaporama(wxCommandEvent& event);
 
 			void OnVideoStop(wxCommandEvent& event);
-			void ChangeTypeAffichage(wxCommandEvent& event);
 			void SetMode(wxCommandEvent& event);
 			void OnShowPicture(wxCommandEvent& event);
 			void SetVideoPos(wxCommandEvent& event);
@@ -152,13 +149,8 @@ namespace Regards
 
 			CPanelPhotoWnd* panelPhotoWnd;
 			CMainParam* viewerconfig;
-			CListPicture* listPicture;
 			CPanelWithClickToolbar* panelInfosClick;
 			bool isNext = false;
-			//Face List
-#ifndef __NOFACE_DETECTION__
-			CListFace* listFace;
-#endif
 
 			bool loadPicture = false;
 			wxString filename;

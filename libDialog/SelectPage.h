@@ -1,7 +1,7 @@
 #pragma once
 #include "ThumbnailSelection.h"
 
-using namespace Regards::Scanner;
+using namespace Regards::Dialog;
 
 class CSelectFileDlg : public wxDialog
 {

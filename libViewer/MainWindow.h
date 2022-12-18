@@ -58,9 +58,6 @@ namespace Regards
 			bool FindNextValidFile();
 			bool FindPreviousValidFile();
 
-			void OnEndDecompressFile(wxCommandEvent& event);
-			void OnEditFile(wxCommandEvent& event);
-
 			void OnUpdateInfos(wxCommandEvent& event);
 			void OnShowToolbar(wxCommandEvent& event);
 			void OnStatusSetText(wxCommandEvent& event);
@@ -73,7 +70,6 @@ namespace Regards
 
 			void UpdateStatusBarMessage(wxCommandEvent& event);
 
-			void OnDeleteFace(wxCommandEvent& event);
 			void OnExit(wxCommandEvent& event);
 			void InitPictures(wxCommandEvent& event);
 			void PictureVideoClick(wxCommandEvent& event);
@@ -84,19 +80,14 @@ namespace Regards
 			void Md5Checking(wxCommandEvent& event);
 			void PrintPreview(wxCommandEvent& event);
 
-			void OnFaceInfosStatusBarUpdate(wxCommandEvent& event);
-			void OnFaceInfosUpdate(wxCommandEvent& event);
-			void OnExportFile(wxCommandEvent& event);
 			void OnUpdateExifThumbnail(wxCommandEvent& event);
 
 			void SetScreenEvent(wxCommandEvent& event);
-			void OnExportDiaporama(wxCommandEvent& event);
 			void RefreshFolderList(wxCommandEvent& event);
 
 			void OnUpdateFolder(wxCommandEvent& event);
 
 			void Resize() override;
-			void ExportVideo(const wxString& filename, const wxString& filenameOutput = "");
 			void ProcessIdle() override;
 			void OnIdle(wxIdleEvent& evt);
 			void OnEndThumbnail(wxCommandEvent& event);

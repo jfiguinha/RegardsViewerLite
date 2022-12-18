@@ -2,19 +2,14 @@
 #include "ThumbnailSelection.h"
 #include "MainTheme.h"
 #include "MainThemeInit.h"
-#include "ScannerParam.h"
-#include "ScannerParamInit.h"
 #include <ScrollbarWnd.h>
 using namespace Regards::Window;
-using namespace Regards::Scanner;
+using namespace Regards::Dialog;
 
 CThumbnailSelection::CThumbnailSelection(wxWindow* parent, wxWindowID id, wxString filename)
 	: CWindowMain("ThumbnailSelection", parent, id)
 {
 	bool checkValidity = false;
-	CMainParam* config = CMainParamInit::getInstance();
-	if (config != nullptr)
-		checkValidity = config->GetCheckThumbnailValidity();
 
 	CMainTheme* viewerTheme = CMainThemeInit::getInstance();
 

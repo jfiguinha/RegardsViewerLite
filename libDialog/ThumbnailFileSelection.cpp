@@ -8,7 +8,7 @@
 #include <ScrollbarWnd.h>
 #include <picture_utility.h>
 #include <ImageVideoThumbnail.h>
-using namespace Regards::Scanner;
+using namespace Regards::Dialog;
 using namespace Regards::Sqlite;
 using namespace Regards::Picture;
 

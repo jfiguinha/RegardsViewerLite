@@ -38,7 +38,6 @@ public:
 	~CSuperSampling() {};
 	string GenerateModelPath(string modelName, int scale);
 	bool TestIfMethodIsValid(int method, int scale);
-	cv::UMat upscaleImage(cv::UMat img, int method, int scale);
 
 private:
 	DnnSuperResImpl sr;
@@ -77,81 +76,6 @@ bool CSuperSampling::TestIfMethodIsValid(int method, int scale)
 		return true;
 	}
 	return false;
-}
-
-cv::UMat CSuperSampling::upscaleImage(cv::UMat img, int method, int scale)
-{
-	isUsed = true;
-	UMat outputImage;
-
-	if (oldscale != scale || oldmethod != method)
-	{
-		try
-		{
-			switch (method)
-			{
-			case EDSR:
-			{
-				string algorithm = "edsr";
-				sr.readModel(GenerateModelPath("EDSR", scale));
-				sr.setModel(algorithm, scale);
-			}
-			break;
-
-			case ESPCN:
-			{
-				string algorithm = "espcn";
-				sr.readModel(GenerateModelPath("ESPCN", scale));
-				sr.setModel(algorithm, scale);
-			}
-			break;
-			case FSRCNN:
-			{
-				string algorithm = "fsrcnn";
-				sr.readModel(GenerateModelPath("FSRCNN", scale));
-				sr.setModel(algorithm, scale);
-			}
-			break;
-			case LapSRN:
-			{
-				string algorithm = "lapsrn";
-				sr.readModel(GenerateModelPath("LapSRN", scale));
-				sr.setModel(algorithm, scale);
-			}
-			break;
-			}
-
-			sr.setPreferableTarget(DNN_TARGET_OPENCL);
-			sr.upsample(img, outputImage);
-
-			//muDnnSuperResImpl.unlock();
-
-		}
-		catch (cv::Exception& e)
-		{
-			const char* err_msg = e.what();
-			std::cout << "exception caught: " << err_msg << std::endl;
-			std::cout << "wrong file format, please input the name of an IMAGE file" << std::endl;
-		}
-	}
-	else
-	{
-		try
-		{
-			sr.upsample(img, outputImage);
-		}
-		catch (cv::Exception& e)
-		{
-			const char* err_msg = e.what();
-			std::cout << "exception caught: " << err_msg << std::endl;
-			std::cout << "wrong file format, please input the name of an IMAGE file" << std::endl;
-		}
-	}
-
-	oldscale = scale;
-	oldmethod = method;
-	isUsed = false;
-	return outputImage;
 }
 
 
@@ -1411,42 +1335,12 @@ cv::UMat COpenCLFilter::Interpolation(const int& widthOut, const int& heightOut,
 		}
 
 
-		/*
-		nearest neighbor interpolation
-		INTER_NEAREST = 0,
-		bilinear interpolation
-		INTER_LINEAR = 1,
-		bicubic interpolation
-		INTER_CUBIC = 2,
-		resampling using pixel area relation. It may be a preferred method for image decimation, as
-		it gives moire'-free results. But when the image is zoomed, it is similar to the INTER_NEAREST
-		method.
-		INTER_AREA = 3,
-		Lanczos interpolation over 8x8 neighborhood
-		INTER_LANCZOS4 = 4,
-		Bit exact bilinear interpolation
-		INTER_LINEAR_EXACT = 5,
-		Bit exact nearest neighbor interpolation. This will produce same results as
-		the nearest neighbor method in PIL, scikit-image or Matlab.
-		INTER_NEAREST_EXACT = 6,
-		*/
 		CRegardsConfigParam* regardsParam = CParamInit::getInstance();
-		int superDnn = regardsParam->GetSuperResolutionType();
-		int useSuperResolution = regardsParam->GetUseSuperResolution();
-		if (useSuperResolution && superSampling->TestIfMethodIsValid(superDnn, (ratio / 100)) && !isUsed)
-		{
-			cvImage = superSampling->upscaleImage(cvImage, superDnn, (ratio / 100));
-		}
-		else if (cvImage.cols != widthOut || cvImage.rows != heightOut)
+
+		if (cvImage.cols != widthOut || cvImage.rows != heightOut)
 		{
 			cv::resize(cvImage, cvImage, cv::Size(widthOut, heightOut), method);
 		}
-		/*
-		else
-		{
-			cv::resize(cvImage, cvImage, cv::Size(widthOut+2, heightOut+2), method);
-		}
-		*/
 
 		if (cvImage.cols != widthOut || cvImage.rows != heightOut)
 			cv::resize(cvImage, cvImage, cv::Size(widthOut, heightOut), method);

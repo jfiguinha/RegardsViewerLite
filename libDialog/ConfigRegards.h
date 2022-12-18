@@ -28,7 +28,6 @@ public:
 	wxButton* btMusicDiaporamaPath;
 
 	wxSpinCtrl* scTime;
-	wxSpinCtrl* scProcessFace;
 	wxSpinCtrl* scProcessExif;
 	wxSpinCtrl* scProcessThumbnail;
 	wxRadioBox* rdPreviewRender;
@@ -46,27 +45,12 @@ public:
 	wxRadioBox* rbAutoRotate;
 	wxRadioBox* rbContrastCorrection;
 
-	
-	wxRadioBox* rbUSESUPERDNN;
-	wxComboBox* cbUSESUPERDNNFILTER;
-
 	wxComboBox* rbTransitionDiaporamaEffect;
 	wxComboBox* rbInterpolation;
 
-
     wxRadioBox* rbOpenCLOpenGLInterop;
-	wxComboBox* rbVideoEncoderHard;
 	wxComboBox* rbVideoDecoderHard;
 
-	//ID_RBVIDEOFACEDETECTION
-	wxRadioBox* rbVideoFaceDetection;
-	wxRadioBox* rbFaceDetection;
-	//*)
-
-	wxTextCtrl* txtPicturePath;
-	wxButton* btPicturePath;
-	wxTextCtrl* txtVideoPath;
-	wxButton* btVideoPath;
 	bool IsOk();
 
 protected:
@@ -75,8 +59,6 @@ protected:
 
 private:
 	void OnBtnMusicDiaporamaClick(wxCommandEvent& event);
-	void OnbtnPathVideoClick(wxCommandEvent& event);
-	void OnBtnPathPictureClick(wxCommandEvent& event);
 
 
 	//(*Handlers(ConfigRegards)

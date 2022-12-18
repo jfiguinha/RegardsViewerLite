@@ -120,8 +120,6 @@ namespace Regards
 			void OnControlSize(wxCommandEvent& event);
 			void OnSetPosition(wxCommandEvent& event);
 
-			static void RotateRecognition(void* param);
-
 			void OnMoveLeft(wxCommandEvent& event);
 			void OnMoveRight(wxCommandEvent& event);
 			void OnMoveTop(wxCommandEvent& event);

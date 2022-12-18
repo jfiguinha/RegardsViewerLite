@@ -35,17 +35,10 @@ ConfigRegards::ConfigRegards(wxWindow* parent)
 	scTime = static_cast<wxSpinCtrl*>(FindWindow(XRCID("ID_SCTIME")));
 	stTime = static_cast<wxStaticText*>(FindWindow(XRCID("ID_STTIME")));
 	scProcessExif = static_cast<wxSpinCtrl*>(FindWindow(XRCID("ID_SCEXIF")));
-	scProcessFace = static_cast<wxSpinCtrl*>(FindWindow(XRCID("ID_SCFACE")));
 	scProcessThumbnail = static_cast<wxSpinCtrl*>(FindWindow(XRCID("ID_SCTHUMBNAIL")));
 	btCancel = static_cast<wxButton*>(FindWindow(XRCID("ID_CANCEL")));
 	sbThumbnail = static_cast<wxStaticBox*>(FindWindow(XRCID("ID_STATICBOX2")));
-	//ID_RBVIDEOFACEDETECTION
-	rbVideoFaceDetection = static_cast<wxRadioBox*>(FindWindow(XRCID("ID_RBVIDEOFACEDETECTION")));
-	rbFaceDetection = static_cast<wxRadioBox*>(FindWindow(XRCID("ID_RBFACEDETECTION")));
-	txtPicturePath = static_cast<wxTextCtrl*>(FindWindow(XRCID("ID_TXTPICTUREPATH")));
-	btPicturePath = static_cast<wxButton*>(FindWindow(XRCID("ID_PICTUREPATH")));
-	txtVideoPath = static_cast<wxTextCtrl*>(FindWindow(XRCID("ID_TXTVIDEOPATH")));
-	btVideoPath = static_cast<wxButton*>(FindWindow(XRCID("ID_VIDEOPATH")));
+
 
 	rbDatabaseInMemory = static_cast<wxRadioBox*>(FindWindow(XRCID("ID_RBDATAINMEMORY")));
 	rbAutoRotate = static_cast<wxRadioBox*>(FindWindow(XRCID("ID_RBROTATEAUTO")));
@@ -57,59 +50,19 @@ ConfigRegards::ConfigRegards(wxWindow* parent)
 
 	txtMusicDiaporamaPath = static_cast<wxTextCtrl*>(FindWindow(XRCID("ID_TXTMUSICDIAPORAMAPATH")));
 	btMusicDiaporamaPath = static_cast<wxButton*>(FindWindow(XRCID("ID_MUSICDIAPORAMAPATH")));
-
-
-	rbUSESUPERDNN = static_cast<wxRadioBox*>(FindWindow(XRCID("ID_RBUSESUPERDNN")));
-	cbUSESUPERDNNFILTER = static_cast<wxComboBox*>(FindWindow(XRCID("ID_CBUSESUPERDNNFILTER")));
-
-
-	rbVideoEncoderHard = static_cast<wxComboBox*>(FindWindow(XRCID("ID_CBVIDEOENCODERHARD")));
 	rbVideoDecoderHard = static_cast<wxComboBox*>(FindWindow(XRCID("ID_CBVIDEODECODERHARD")));
 
 
 	Connect(XRCID("ID_OK"), wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&ConfigRegards::OnbtnOkClick);
 	Connect(XRCID("ID_CANCEL"), wxEVT_COMMAND_BUTTON_CLICKED, (wxObjectEventFunction)&ConfigRegards::OnBtnCancelClick);
 	//*)
-	//Connect(wxID_ANY, wxEVT_INIT_DIALOG, (wxObjectEventFunction)&ConfigRegards::OnInit);
-	Connect(XRCID("ID_VIDEOPATH"), wxEVT_COMMAND_BUTTON_CLICKED,
-	        (wxObjectEventFunction)&ConfigRegards::OnbtnPathVideoClick);
-	Connect(XRCID("ID_PICTUREPATH"), wxEVT_COMMAND_BUTTON_CLICKED,
-	        (wxObjectEventFunction)&ConfigRegards::OnBtnPathPictureClick);
 	Connect(XRCID("ID_MUSICDIAPORAMAPATH"), wxEVT_COMMAND_BUTTON_CLICKED,
 	        (wxObjectEventFunction)&ConfigRegards::OnBtnMusicDiaporamaClick);
 
 
 	init();
 
-	CMainParam* config = CMainParamInit::getInstance();
-	if (config != nullptr)
-		txtVideoPath->SetValue(config->GetPathForVideoEdit());
-	if (config != nullptr)
-		txtPicturePath->SetValue(config->GetPathForPictureEdit());
-
 	SetAutoLayout(TRUE);
-}
-
-void ConfigRegards::OnbtnPathVideoClick(wxCommandEvent& event)
-{
-	wxString label = CLibResource::LoadStringFromResource(L"LBLSELECTVIDEOEDITOR", 1);
-	wxString allfiles = CLibResource::LoadStringFromResource(L"LBLALLFILES", 1);
-
-	wxFileDialog openFileDialog(nullptr, label, "", "",
-	                            allfiles, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-	if (openFileDialog.ShowModal() == wxID_OK)
-		txtVideoPath->SetValue(openFileDialog.GetPath());
-}
-
-void ConfigRegards::OnBtnPathPictureClick(wxCommandEvent& event)
-{
-	wxString label = CLibResource::LoadStringFromResource(L"LBLSELECTPICTUREEDITOR", 1);
-	wxString allfiles = CLibResource::LoadStringFromResource(L"LBLALLFILES", 1);
-
-	wxFileDialog openFileDialog(nullptr, label, "", "",
-	                            allfiles, wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-	if (openFileDialog.ShowModal() == wxID_OK)
-		txtPicturePath->SetValue(openFileDialog.GetPath());
 }
 
 void ConfigRegards::OnBtnMusicDiaporamaClick(wxCommandEvent& event)
@@ -161,24 +114,6 @@ void ConfigRegards::init()
 	else
 		rbContrastCorrection->SetSelection(0);
 
-	int videoFaceDetection = regardsParam->GetFaceVideoDetection();
-	if (videoFaceDetection == 0)
-		rbVideoFaceDetection->SetSelection(1);
-	else
-		rbVideoFaceDetection->SetSelection(0);
-
-	int useSuperResolution = regardsParam->GetUseSuperResolution();
-	if (useSuperResolution == 0)
-		rbUSESUPERDNN->SetSelection(1);
-	else
-		rbUSESUPERDNN->SetSelection(0);
-
-	int faceDetection = regardsParam->GetFaceDetection();
-	if (faceDetection == 0)
-		rbFaceDetection->SetSelection(1);
-	else
-		rbFaceDetection->SetSelection(0);
-
 	txtMusicDiaporamaPath->SetValue(regardsParam->GetMusicDiaporama());
 
 	int timeDiaporama = regardsParam->GetDiaporamaTime();
@@ -190,9 +125,6 @@ void ConfigRegards::init()
 	int exifProcess = regardsParam->GetExifProcess();
 	scProcessExif->SetValue(exifProcess);
 
-	int faceProcess = regardsParam->GetFaceProcess();
-	scProcessFace->SetValue(faceProcess);
-
 	int dataInMemory = regardsParam->GetDatabaseInMemory();
 	if (dataInMemory == 0)
 		rbDatabaseInMemory->SetSelection(1);
@@ -202,32 +134,16 @@ void ConfigRegards::init()
 	int interpolation = regardsParam->GetInterpolationType();
 	rbInterpolation->SetSelection(interpolation);
 
-	int superDnn = regardsParam->GetSuperResolutionType();
-	cbUSESUPERDNNFILTER->SetSelection(superDnn);
-
-
 	int openclOpenGLInterop = regardsParam->GetIsOpenCLOpenGLInteropSupport();
 	if (openclOpenGLInterop == 0)
 		rbOpenCLOpenGLInterop->SetSelection(1);
 	else
 		rbOpenCLOpenGLInterop->SetSelection(0);
 	
-
-
-	int numItem = 0;
-	wxString encoder = regardsParam->GetHardwareEncoder();
-	if (encoder != "")
-	{
-		numItem = rbVideoEncoderHard->FindString(encoder);
-		rbVideoEncoderHard->SetSelection(numItem);
-	}
-	else
-		rbVideoEncoderHard->SetSelection(0);
-
 	wxString decoder = regardsParam->GetHardwareDecoder();	
 	if (decoder != "")
 	{
-		numItem = rbVideoDecoderHard->FindString(decoder);
+		int numItem = rbVideoDecoderHard->FindString(decoder);
 		rbVideoDecoderHard->SetSelection(numItem);
 	}
 	else
@@ -243,14 +159,7 @@ void ConfigRegards::OnbtnOkClick(wxCommandEvent& event)
 	bool showInfosRestart = false;
 	CRegardsConfigParam* regardsParam = CParamInit::getInstance();
 	CMainParam* mainparam = CMainParamInit::getInstance();
-	int _faceDetection = regardsParam->GetFaceDetection();
 	int nbProcesseur = thread::hardware_concurrency();
-
-	if (mainparam != nullptr)
-	{
-		mainparam->SetPathForVideoEdit(txtVideoPath->GetValue());
-		mainparam->SetPathForPictureEdit(txtPicturePath->GetValue());
-	}
 
 	regardsParam->SetMusicDiaporama(txtMusicDiaporamaPath->GetValue());
 
@@ -269,44 +178,19 @@ void ConfigRegards::OnbtnOkClick(wxCommandEvent& event)
 	else
 		regardsParam->SetDectectOrientation(0);
 
-	int videoFaceDetection = rbVideoFaceDetection->GetSelection();
-	if (videoFaceDetection == 0)
-		regardsParam->SetFaceVideoDetection(1);
-	else
-		regardsParam->SetFaceVideoDetection(0);
-
-	int faceDetection = rbFaceDetection->GetSelection();
-	if (faceDetection == 0)
-		regardsParam->SetFaceDetection(1);
-	else
-		regardsParam->SetFaceDetection(0);
-
-	if (_faceDetection == faceDetection)
-		showInfosRestart = true;
-
 	int autoContrast = rbContrastCorrection->GetSelection();
 	if (autoContrast == 0)
 		regardsParam->SetAutoConstrast(1);
 	else
 		regardsParam->SetAutoConstrast(0);
 
-	int useDnn = rbUSESUPERDNN->GetSelection();
-	if (useDnn == 0)
-		regardsParam->SetUseSuperResolution(1);
-	else
-		regardsParam->SetUseSuperResolution(0);
-
 	int interpolation = rbInterpolation->GetSelection();
 	regardsParam->SetInterpolationType(interpolation);
-
-	int superDnn = cbUSESUPERDNNFILTER->GetSelection();
-	regardsParam->SetSuperResolutionType(superDnn);
 
 	int timeDiaporama = scTime->GetValue();
 	regardsParam->SetDiaporamaTime(timeDiaporama);
 
 	int thumbnailProcess = scProcessThumbnail->GetValue();
-	int faceProcess = scProcessFace->GetValue();
 	int exifProcess = scProcessExif->GetValue();
 
 	int openclOpenGLInterop = rbOpenCLOpenGLInterop->GetSelection();
@@ -318,32 +202,23 @@ void ConfigRegards::OnbtnOkClick(wxCommandEvent& event)
 	wxString oldencoder = regardsParam->GetHardwareEncoder();
 	wxString olddecoder = regardsParam->GetHardwareDecoder();
 
-	wxString encoder = rbVideoEncoderHard->GetStringSelection();
 	wxString decoder = rbVideoDecoderHard->GetStringSelection();
-
-	if(encoder == "auto")
-		regardsParam->SetHardwareEncoder("");
-	else
-		regardsParam->SetHardwareEncoder(encoder);
 
 	if (decoder == "auto")
 		regardsParam->SetHardwareDecoder("");
 	else
 		regardsParam->SetHardwareDecoder(decoder);
 
-	if (oldencoder != encoder)
-		showInfosRestart = true;
 	if (olddecoder != decoder)
 		showInfosRestart = true;
 
-	if (thumbnailProcess == 0 || faceProcess == 0 || exifProcess == 0)
+	if (thumbnailProcess == 0 || exifProcess == 0)
 	{
 		wxString errorProcessNumberMin = CLibResource::LoadStringFromResource(L"ErrorProcessNumberMin", 1);
 		wxString errorInfo = CLibResource::LoadStringFromResource(L"informationserror", 1);
 		wxMessageBox(errorProcessNumberMin, errorInfo);
 	}
-	else if ((thumbnailProcess + exifProcess) > nbProcesseur && faceProcess > nbProcesseur && (thumbnailProcess > 1 ||
-		faceProcess > 1 || exifProcess > 1))
+	else if ((thumbnailProcess + exifProcess) > nbProcesseur && (thumbnailProcess > 1 ||exifProcess > 1))
 	{
 		wxString errorProcessNumberMax = CLibResource::LoadStringFromResource(L"ErrorProcessNumberMax", 1);
 		wxString errorInfo = CLibResource::LoadStringFromResource(L"informationserror", 1);
@@ -351,7 +226,6 @@ void ConfigRegards::OnbtnOkClick(wxCommandEvent& event)
 	}
 	else
 	{
-		regardsParam->SetFaceProcess(faceProcess);
 		regardsParam->SetExifProcess(exifProcess);
 		regardsParam->SetThumbnailProcess(thumbnailProcess);
 

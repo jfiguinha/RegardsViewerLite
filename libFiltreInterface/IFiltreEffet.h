@@ -43,7 +43,6 @@ public:
 
 	virtual cv::Mat GetMat() = 0;
     virtual cv::UMat GetUMat() = 0;
-	virtual int BokehEffect(const int& radius, const int& boxsize, const int& nbFace, const wxRect & listFace) = 0;
 	virtual int OilPaintingEffect(const int &size, const int &dynRatio) = 0;
 	virtual void Interpolation(const int &widthOut, const int &heightOut, const wxRect &rc, const int &method, int flipH, int flipV, int angle, int ratio) = 0;
 	virtual int WaveFilter(int x, int y, short height, int scale, int radius) = 0;
@@ -90,7 +89,6 @@ public:
 	virtual int LensFlare(const int &iPosX, const int &iPosY, const int &iPuissance, const int &iType, const int &iIntensity, const int &iColor, const int &iColorIntensity) = 0;
 	virtual int Fusion(cv::Mat& bitmapSecond, const float &pourcentage) = 0;
 	virtual wxImage GetwxImage() = 0;
-	virtual int RedEye() = 0;
 	virtual void SetBitmap(CImageLoadingFormat* bitmap) = 0;
 	virtual cv::Mat GetBitmap(const bool& source) = 0;
 	virtual int GetWidth() = 0;

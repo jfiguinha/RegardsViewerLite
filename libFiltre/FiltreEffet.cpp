@@ -55,12 +55,6 @@ bool CFiltreEffet::StabilizeVideo(Regards::OpenCV::COpenCVStabilization* stabili
 	return filtreEffet->StabilizeVideo(stabilization);
 }
 
-int CFiltreEffet::BokehEffect(const int& radius, const int& boxsize, const int& nbFace, const wxRect & listFace)
-{
-	filtreEffet->BokehEffect(radius, boxsize, nbFace, listFace);
-	return 0;
-}
-
  cv::UMat CFiltreEffet::GetUMat()
  {
      return filtreEffet->GetUMat();
@@ -149,12 +143,6 @@ CFiltreEffet::~CFiltreEffet()
 {
 	if (filtreEffet != nullptr)
 		delete(filtreEffet);
-}
-
-int CFiltreEffet::RedEye()
-{
-	filtreEffet->RedEye();
-	return 0;
 }
 
 wxImage CFiltreEffet::GetwxImage()

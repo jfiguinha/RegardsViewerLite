@@ -108,35 +108,7 @@
 										<label>...</label>
 										<pos>350,170</pos>
 										<size>20,20</size>
-									</object>
-									<object class="wxRadioBox" name="ID_RBUSESUPERDNN">
-										<label>Use Super Resolution Filter</label>
-										<style>wxRA_SPECIFY_COLS</style>
-										<content>
-											<item>Yes</item>
-											<item>No</item>
-										</content>
-										<default>-1</default>
-										<pos>0,220</pos>
-										<size>180,70</size>
 									</object>									
-									<object class="wxStaticBox" name="sbInterpolation">
-										<label>Super Resolution Filter</label>
-										<pos>200,220</pos>
-										<size>180,70</size>
-									</object>
-									<object class="wxComboBox" name="ID_CBUSESUPERDNNFILTER">
-										<pos>205,240</pos>
-										<size>170,20</size>
-										<value>EDSR</value>
-										<content>
-											<item>EDSR</item>
-											<item>ESPCN</item>
-											<item>FSRCNN</item>
-											<item>LapSRN</item>
-											<item>None</item>
-										</content>
-									</object>										
 							</object>
 						</object>	
 						<object class="notebookpage">
@@ -167,62 +139,8 @@
 									<pos>120,60</pos>
 									<size>120,21</size>
 								</object>
-								<object class="wxStaticText" name="ID_STFACE">
-									<label>Face :</label>
-									<pos>16,90</pos>
-									<size>100,24</size>
-								</object>			
-								<object class="wxSpinCtrl" name="ID_SCFACE">
-									<value>1</value>
-									<pos>120,90</pos>
-									<size>120,21</size>
-								</object>
-								<object class="wxRadioBox" name="ID_RBVIDEOFACEDETECTION">
-										<label>Video Face Detection</label>
-										<style>wxRA_SPECIFY_COLS</style>
-										<content>
-											<item>Yes</item>
-											<item>No</item>
-										</content>
-										<default>-1</default>
-										<pos>0,130</pos>
-										<size>360,70</size>
-								</object>
 							</object>
-						</object>
-						<object class="notebookpage">
-						<label>External Program</label>
-							<object class="wxPanel" name="page_4">
-								<object class="wxStaticBox" name="sbPictureExternalProgram">
-									<label>Picture External Program</label>
-									<pos>0,10</pos>
-									<size>360,70</size>
-								</object>
-								<object class="wxTextCtrl" name="ID_TXTPICTUREPATH">
-									<default>0</default>
-									<pos>5,35</pos>
-									<size>255,20</size>
-								</object>
-								<object class="wxButton" name="ID_PICTUREPATH">
-									<label>...</label>
-									<pos>270,35</pos>
-								</object>
-								<object class="wxStaticBox" name="sbVideoExternalProgram">
-									<label>Video External Program</label>
-									<pos>0,84</pos>
-									<size>360,80</size>
-								</object>
-								<object class="wxTextCtrl" name="ID_TXTVIDEOPATH">
-									<default>0</default>
-									<pos>5,120</pos>
-									<size>255,20</size>
-								</object>
-								<object class="wxButton" name="ID_VIDEOPATH">
-									<label>...</label>
-									<pos>270,120</pos>
-								</object>
-						</object>
-					</object>					
+						</object>				
 					<object class="notebookpage">
 						<label>Other Parameter</label>
 						<object class="wxPanel" name="page_4">
@@ -236,18 +154,7 @@
 								<default>-1</default>
 								<pos>0,0</pos>
 								<size>190,70</size>
-							</object>	
-							<object class="wxRadioBox" name="ID_RBFACEDETECTION">
-								<label>Detect Face</label>
-								<style>wxRA_SPECIFY_COLS</style>
-								<content>
-									<item>Yes</item>
-									<item>No</item>
-								</content>
-								<default>-1</default>
-								<pos>190,0</pos>
-								<size>190,70</size>
-							</object>								
+							</object>							
 							<object class="wxStaticBox" name="sbDiaporama">
 								<label>Diaporama Sequence</label>
 								<pos>0,80</pos>
@@ -280,23 +187,6 @@
 									<item>dxva2</item>
 								</content>
 							</object>		
-							<object class="wxStaticBox" name="sbVideoEncoderHard">
-								<label>Video Encoder Hardware</label>
-								<pos>190,150</pos>
-								<size>190,70</size>
-							</object>
-							<object class="wxComboBox" name="ID_CBVIDEOENCODERHARD">
-								<pos>200,170</pos>
-								<size>170,20</size>
-								<value>none</value>
-								<content>
-									<item>none</item>
-									<item>nvenc</item>
-									<item>amf</item>
-									<item>qsv</item>
-									<item>libmfx</item>
-								</content>
-							</object>
 							<object class="wxRadioBox" name="ID_RBOPENGLOPENCLINTEROP">
 								<label>OpenCL OpenGL Interop</label>
 								<style>wxRA_SPECIFY_COLS</style>

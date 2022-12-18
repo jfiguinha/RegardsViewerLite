@@ -4,7 +4,6 @@
 #include "LensFlare.h"
 #include "MotionBlur.h"
 #include "Filtre.h"
-#include <DeepLearning.h>
 #include "Wave.h"
 #include <ImageLoadingFormat.h>
 #include <hqdn3d.h>
@@ -20,10 +19,7 @@
 #include <ConvertUtility.h>
 using namespace Regards::OpenCV;
 using namespace Regards::OpenGL;
-using namespace Regards::DeepLearning;
 using namespace cv;
-using namespace dnn;
-using namespace dnn_superres;
 extern float value[256];
 using namespace Regards::FiltreEffet;
 
@@ -39,9 +35,6 @@ public:
 	static void generateGradient(Mat& mask, const double& radius, const double& power);
 	static double getMaxDisFromCorners(const cv::Size& imgSize, const cv::Point& center);
 	static double dist(cv::Point a, cv::Point b);
-	static cv::Mat upscaleImage(cv::Mat img, int method, int scale);
-	static string GenerateModelPath(string modelName, int scale);
-	static bool TestIfMethodIsValid(int method, int scale);
 	static cv::Rect CalculRect(int widthIn, int heightIn, int widthOut, int heightOut, int flipH, int flipV, int angle, float ratioX, float ratioY, int x, int y, float left, float top);
 
 };
@@ -113,96 +106,7 @@ cv::Rect CFiltreEffetCPUImpl::CalculRect(int widthIn, int heightIn, int widthOut
 }
 
 
-string CFiltreEffetCPUImpl::GenerateModelPath(string modelName, int scale)
-{
-	wxString path = "";
-#ifdef WIN32
-	path = CFileUtility::GetResourcesFolderPath() + "\\model\\" + modelName + "_x" + to_string(scale) + ".pb";
-#else
-	path = CFileUtility::GetResourcesFolderPath() + "/model/"  + modelName + "_x" + to_string(scale) + ".pb";
-#endif
-	return CConvertUtility::ConvertToStdString(path);
-}
 
-bool CFiltreEffetCPUImpl::TestIfMethodIsValid(int method, int scale)
-{
-	if (method == EDSR && (scale == 2 || scale == 3 || scale == 4))
-	{
-		return true;
-	}
-	else if (method == ESPCN && (scale == 2 || scale == 3 || scale == 4))
-	{
-		return true;
-	}
-	else if (method == FSRCNN && (scale == 2 || scale == 3 || scale == 4))
-	{
-		return true;
-	}
-	else if (method == LapSRN && (scale == 2 || scale == 4 || scale == 8))
-	{
-		return true;
-	}
-	return false;
-}
-
-cv::Mat CFiltreEffetCPUImpl::upscaleImage(cv::Mat img, int method, int scale)
-{
-	Mat outputImage;
-	try
-	{
-		//muDnnSuperResImpl.lock();
-
-		DnnSuperResImpl sr;
-
-
-		switch (method)
-		{
-		case EDSR:
-		{
-			string algorithm = "edsr";
-			sr.readModel(GenerateModelPath("EDSR", scale));
-			sr.setModel(algorithm, scale);
-		}
-		break;
-
-		case ESPCN:
-		{
-			string algorithm = "espcn";
-			sr.readModel(GenerateModelPath("ESPCN", scale));
-			sr.setModel(algorithm, scale);
-		}
-		break;
-		case FSRCNN:
-		{
-			string algorithm = "fsrcnn";
-			sr.readModel(GenerateModelPath("FSRCNN", scale));
-			sr.setModel(algorithm, scale);
-		}
-		break;
-		case LapSRN:
-		{
-			string algorithm = "lapsrn";
-			sr.readModel(GenerateModelPath("LapSRN", scale));
-			sr.setModel(algorithm, scale);
-		}
-		break;
-		}
-
-		sr.setPreferableTarget(DNN_TARGET_CPU);
-		sr.upsample(img, outputImage);
-
-		//muDnnSuperResImpl.unlock();
-
-	}
-	catch (cv::Exception& e)
-	{
-		const char* err_msg = e.what();
-		std::cout << "exception caught: " << err_msg << std::endl;
-		std::cout << "wrong file format, please input the name of an IMAGE file" << std::endl;
-	}
-
-	return outputImage;
-}
 
 
 CFiltreEffetCPU::CFiltreEffetCPU(CRgbaquad back_color, CImageLoadingFormat* bitmap)
@@ -425,217 +329,6 @@ void CFiltreEffetCPU::CopyPictureToTexture2D(GLTexture* texture, const bool& sou
 	}
 }*/
 
-int CFiltreEffetCPU::BokehEffect(const int& radius, const int& boxsize, const int & nbFace, const wxRect & listFace)
-{
-	cv::Mat image;
-	if (preview)
-		image = paramOutput;
-	else
-		image = input;
-
-	
-
-	if(nbFace > 0)
-	{
-		//cv::flip(image, image, 0);
-
-		try
-		{
-			//Resize the rectangle
-			wxRect rectCopy = listFace;
-			cv::Rect rect;
-			int width = listFace.width;
-			rect.width = listFace.width * 2;
-			rect.x = listFace.x - (width / 2);
-			rect.y = 0;
-			rect.height = image.size().height;
-
-			Mat blur;
-			cv::GaussianBlur(image, blur, cv::Size(boxsize, boxsize), radius);
-
-
-			int maxWidth = image.cols;
-			int maxHeight = image.rows;
-			if ((rect.width + rect.x) > maxWidth)
-				rect.width = maxWidth - rect.x;
-
-			if ((rect.height + rect.y) > maxHeight)
-				rect.height = maxHeight - rect.y;
-			
-			cv::Mat croppedImage = image(rect);
-			Mat src_gray;
-			Mat detected_edges;
-			Mat output;
-
-			Mat blur_crop;
-			cv::GaussianBlur(croppedImage, blur_crop, cv::Size(3, 3), 0);
-			//medianBlur(croppedImage, blur_crop, 3);
-
-			cvtColor(blur_crop, src_gray, COLOR_BGR2GRAY);
-
-			// apply your filter
-			Canny(src_gray, src_gray, 200, 100);
-
-			// find the contours
-			vector< vector<cv::Point> > contours;
-			findContours(src_gray, contours, RETR_EXTERNAL, CHAIN_APPROX_NONE);
-
-			// you could also reuse img1 here
-			Mat mask = Mat::zeros(src_gray.rows, src_gray.cols, CV_8UC1);
-			//threshold(mask, mask, 0, 255, THRESH_BINARY_INV);
-			// CV_FILLED fills the connected components found
-			drawContours(mask, contours, -1, Scalar(255), FILLED);
-
-		
-			cv::Point center(rect.width / 2, (rectCopy.y + rectCopy.height) / 2);//Declaring the center point
-			cv::Size xy((rectCopy.width / 2) * 1.5, (rectCopy.height / 2) * 1.5);//Declaring the major and minor axis of the ellipse//
-			int angle = 0;//angle of rotation//
-			int starting_point = 0;//Starting point of the ellipse//
-			int ending_point = 360;//Ending point of the ellipse//
-			Scalar line_Color(255, 255, 255);//Color of the Ellipse//
-
-			//namedWindow("whiteMatrix");//Declaring a window to show the ellipse//
-			ellipse(mask, center, xy, angle, starting_point, ending_point, line_Color, -1, LINE_AA);//Drawing the ellipse
-
-			//waitKey(0);//Waiting for Keystroke
-
-			/*
-			 Before drawing all contours you could also decide
-			 to only draw the contour of the largest connected component
-			 found. Here's some commented out code how to do that:
-			*/
-
-			//    vector<double> areas(contours.size());
-			//    for(int i = 0; i < contours.size(); i++)
-			//        areas[i] = contourArea(Mat(contours[i]));
-			//    double max;
-			//    Point maxPosition;
-			//    minMaxLoc(Mat(areas),0,&max,0,&maxPosition);
-			//    drawContours(mask, contours, maxPosition.y, Scalar(1), CV_FILLED);
-
-				// let's create a new image now
-			//Mat crop(src_gray.rows, src_gray.cols, CV_8UC3);
-
-
-			cv::GaussianBlur(croppedImage, blur_crop, cv::Size(boxsize, boxsize), radius);
-
-
-			// normalize so imwrite(...)/imshow(...) shows the mask correctly!
-			normalize(mask.clone(), mask, 0.0, 255.0, cv::NORM_MINMAX, CV_8UC1);
-
-
-			int oldx = 0;
-			for (int y = 0; y < rect.height; y++)
-			{
-				for (int x = 0; x < rect.width; x++)
-				{
-					uchar color = mask.at<uchar>(y, x);
-					if (color == 255)
-					{
-						int _x = x;
-						if (oldx != 0)
-						{
-							if (x < (oldx * 0.98))
-								x = oldx * 0.98;
-						}
-
-						if (y > rect.height / 2)
-						{
-							if (x > _x)
-								x = _x;
-						}
-
-						if (x > (rectCopy.width * 0.8))
-							x = (rectCopy.width * 0.8);
-						//stop searching
-						for (int _x = 0; _x < x; _x++)
-						{
-							mask.at<uchar>(y, _x) = 0;
-						}
-
-						for (int _x = x; _x < rect.width - x; _x++)
-						{
-							mask.at<uchar>(y, _x) = 255;
-						}
-
-						for (int _x = rect.width - x; _x < rect.width; _x++)
-						{
-							mask.at<uchar>(y, _x) = 0;
-						}
-						oldx = x;
-
-						break;
-					}
-				}
-			}
-
-
-			for (int y = rect.height - 1; y >= 0; y--)
-			{
-				for (int x = 0; x < rect.width; x++)
-				{
-					uchar color = mask.at<uchar>(y, x);
-					if (color == 255)
-					{
-						if (oldx != 0)
-						{
-							if (x < (oldx * 0.98))
-								x = oldx * 0.98;
-						}
-						//stop searching
-						for (int _x = 0; _x < x; _x++)
-						{
-							mask.at<uchar>(y, _x) = 0;
-						}
-
-						for (int _x = x; _x < rect.width - x; _x++)
-						{
-							mask.at<uchar>(y, _x) = 255;
-						}
-
-						for (int _x = rect.width - x; _x < rect.width; _x++)
-						{
-							mask.at<uchar>(y, _x) = 0;
-						}
-
-						if (y > rect.height / 2)
-						{
-							if (x < oldx)
-								x = oldx;
-						}
-						
-						oldx = x;
-
-						break;
-					}
-
-					
-				}
-			}
-
-
-			cv::Rect _rect(0, rect.height / 2, rect.width, rect.height / 2);
-			cv::rectangle(mask, _rect, cv::Scalar(255, 255, 255), -1);
-			
-			// and copy the magic apple
-			croppedImage.copyTo(blur_crop, mask);
-
-			cv::Rect copy(rect.x, rect.y, croppedImage.cols, croppedImage.rows);
-			blur_crop.copyTo(blur(copy));
-
-			blur.copyTo(image);
-
-		}
-		catch(...)
-		{
-			
-		}
-
-		//cv::flip(image, image, 0);
-	}
-	//
-	return 0;
-}
 
 int CFiltreEffetCPU::OilPaintingEffect(const int& size, const int& dynRatio)
 {
@@ -783,24 +476,6 @@ void CFiltreEffetCPU::SetBitmap(CImageLoadingFormat* bitmap)
 		cv::cvtColor(local, input, cv::COLOR_BGRA2BGR);
 		preview = false;
 	}
-}
-
-int CFiltreEffetCPU::RedEye()
-{
-	cv::Mat image;
-	if (preview)
-		image = paramOutput;
-	else
-		image = input;
-
-	bool fastDetection = true;
-	CRegardsConfigParam* param = CParamInit::getInstance();
-	if (param != nullptr)
-		fastDetection = param->GetFastDetectionFace();
-
-	CDeepLearning::DetectEyes(image, fastDetection);
-
-	return 0;
 }
 
 int CFiltreEffetCPU::WaveFilter(int x, int y, short height, int scale, int radius)
@@ -1292,39 +967,9 @@ cv::Mat CFiltreEffetCPU::Interpolation(const cv::Mat & inputData, const int& wid
 			cv::rotate(cvImage, cvImage, cv::ROTATE_180);
 		}
 
-
-		/*
-		nearest neighbor interpolation
-		INTER_NEAREST = 0,
-		bilinear interpolation
-		INTER_LINEAR = 1,
-		bicubic interpolation
-		INTER_CUBIC = 2,
-		resampling using pixel area relation. It may be a preferred method for image decimation, as
-		it gives moire'-free results. But when the image is zoomed, it is similar to the INTER_NEAREST
-		method.
-		INTER_AREA = 3,
-		Lanczos interpolation over 8x8 neighborhood
-		INTER_LANCZOS4 = 4,
-		Bit exact bilinear interpolation
-		INTER_LINEAR_EXACT = 5,
-		Bit exact nearest neighbor interpolation. This will produce same results as
-		the nearest neighbor method in PIL, scikit-image or Matlab.
-		INTER_NEAREST_EXACT = 6,
-		*/
 		if (ratio != 100)
 		{
-			CRegardsConfigParam* regardsParam = CParamInit::getInstance();
-			int superDnn = regardsParam->GetSuperResolutionType();
-			int useSuperResolution = regardsParam->GetUseSuperResolution();
-			if (useSuperResolution && CFiltreEffetCPUImpl::TestIfMethodIsValid(superDnn, (ratio / 100)))
-			{
-				cvImage = CFiltreEffetCPUImpl::upscaleImage(cvImage, superDnn, (ratio / 100));
-			}
-			else
-			{
-				cv::resize(cvImage, cvImage, cv::Size(widthOut, heightOut), method);
-			}
+			cv::resize(cvImage, cvImage, cv::Size(widthOut, heightOut), method);
 		}
 
 		if (cvImage.cols != widthOut || cvImage.rows != heightOut)

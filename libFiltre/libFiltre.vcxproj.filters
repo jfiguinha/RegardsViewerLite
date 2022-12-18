@@ -162,9 +162,6 @@
     <ClInclude Include="WaveEffectParameter.h">
       <Filter>window\datastructure</Filter>
     </ClInclude>
-    <ClInclude Include="RedEyeParameter.h">
-      <Filter>window\datastructure</Filter>
-    </ClInclude>
     <ClInclude Include="RgbEffectParameter.h">
       <Filter>window\datastructure</Filter>
     </ClInclude>
@@ -278,12 +275,6 @@
     </ClInclude>
     <ClInclude Include="FiltreImplementation.h">
       <Filter>window</Filter>
-    </ClInclude>
-    <ClInclude Include="BokehEffectParameter.h">
-      <Filter>window\datastructure</Filter>
-    </ClInclude>
-    <ClInclude Include="BokehFilter.h">
-      <Filter>window\picture</Filter>
     </ClInclude>
     <ClInclude Include="hqdn3dEffectParameter.h">
       <Filter>window\datastructure</Filter>
@@ -438,9 +429,6 @@
       <Filter>Filter\MeanShift</Filter>
     </ClCompile>
     <ClCompile Include="VignetteFilter.cpp">
-      <Filter>window\picture</Filter>
-    </ClCompile>
-    <ClCompile Include="BokehFilter.cpp">
       <Filter>window\picture</Filter>
     </ClCompile>
     <ClCompile Include="DecodeRaw.cpp">

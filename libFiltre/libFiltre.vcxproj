@@ -558,8 +558,6 @@
     <ClInclude Include="BlurEffectParameter.h" />
     <ClInclude Include="BlurFilter.h" />
     <ClInclude Include="bm3dEffectParameter.h" />
-    <ClInclude Include="BokehEffectParameter.h" />
-    <ClInclude Include="BokehFilter.h" />
     <ClInclude Include="BrightAndContrastEffectParameter.h" />
     <ClInclude Include="BrightAndContrastFilter.h" />
     <ClInclude Include="CartoonEffectParameter.h" />
@@ -612,7 +610,6 @@
     <ClInclude Include="PhotoFiltreFilter.h" />
     <ClInclude Include="PosterisationEffectParameter.h" />
     <ClInclude Include="PosterisationFilter.h" />
-    <ClInclude Include="RedEyeParameter.h" />
     <ClInclude Include="RgbEffectParameter.h" />
     <ClInclude Include="RotateFreeFilter.h" />
     <ClInclude Include="Selection.h" />
@@ -643,7 +640,6 @@
     <ClCompile Include="AudioVideoFilter.cpp" />
     <ClCompile Include="bilateralFilter.cpp" />
     <ClCompile Include="BlurFilter.cpp" />
-    <ClCompile Include="BokehFilter.cpp" />
     <ClCompile Include="BrightAndContrastFilter.cpp" />
     <ClCompile Include="CartoonFilter.cpp" />
     <ClCompile Include="circle.cpp" />

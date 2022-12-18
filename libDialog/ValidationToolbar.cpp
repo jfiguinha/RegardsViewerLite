@@ -1,7 +1,7 @@
 #include <header.h>
 #include "ValidationToolbar.h"
 #include <LibResource.h>
-using namespace Regards::Scanner;
+using namespace Regards::Dialog;
 
 #define WM_OK 1
 #define WM_CANCEL 2

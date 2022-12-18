@@ -73,9 +73,9 @@ namespace Regards
 			static void SetViewerMode(const bool& viewerMode);
 			bool AddFSEntry(const wxString& dirPath) override;
 			bool RemoveFSEntry(const wxString& dirPath) override;
-			int ShowScanner() override;
+
 		private:
-			void OnExport(wxCommandEvent& event);
+
 #ifdef WIN32
 			void OnAssociate(wxCommandEvent& event);
 #endif
@@ -83,7 +83,6 @@ namespace Regards
 			void OnHelp(wxCommandEvent& event);
 			void OnIconSizeLess(wxCommandEvent& event);
 			void OnIconSizeMore(wxCommandEvent& event);
-			void OnFacePertinence(wxCommandEvent& event);
 			void OnPictureEndLoading(wxCommandEvent& event);
 			void OnKeyDown(wxKeyEvent& event);
 			void OnKeyUp(wxKeyEvent& event);
@@ -93,11 +92,11 @@ namespace Regards
 			void OnClose(wxCloseEvent& event);
 			void OnConfiguration(wxCommandEvent& event);
 			void OnEraseDatabase(wxCommandEvent& event);
-			void OnScanner(wxCommandEvent& event);
+
 			void OnExit(wxCommandEvent& event);
 			void OnPageSetup(wxCommandEvent& event);
 			void OnFileSystemModified(wxFileSystemWatcherEvent& event);
-			void HideScanner(wxCommandEvent& event);
+
 #ifdef __WXMAC__
 			void OnPageMargins(wxCommandEvent& event);
 #endif

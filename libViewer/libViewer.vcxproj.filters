@@ -52,12 +52,6 @@
     <Filter Include="Resource">
       <UniqueIdentifier>{8bbf014a-b4f4-4b6c-a5cc-5e3b0ad81160}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Window">
-      <UniqueIdentifier>{99be6f0d-57d5-445f-80e8-f6b7021b72db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Window\Keyword Management">
-      <UniqueIdentifier>{0cb48d58-8402-42b1-a7b6-ef33346be6c3}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ViewerFrame.h">
@@ -65,24 +59,6 @@
     </ClInclude>
     <ClInclude Include="ImageList.h">
       <Filter>DataStructure</Filter>
-    </ClInclude>
-    <ClInclude Include="ThumbnailFace.h">
-      <Filter>Thumbnail\include</Filter>
-    </ClInclude>
-    <ClInclude Include="ThumbnailFacePertinenceToolBar.h">
-      <Filter>Thumbnail\include</Filter>
-    </ClInclude>
-    <ClInclude Include="ThumbnailFaceToolBar.h">
-      <Filter>Thumbnail\include</Filter>
-    </ClInclude>
-    <ClInclude Include="ThumbnailFolder.h">
-      <Filter>Thumbnail\include</Filter>
-    </ClInclude>
-    <ClInclude Include="ThumbnailToolBar.h">
-      <Filter>Thumbnail\include</Filter>
-    </ClInclude>
-    <ClInclude Include="ThumbnailToolBarZoom.h">
-      <Filter>Thumbnail\include</Filter>
     </ClInclude>
     <ClInclude Include="ThumbnailViewerVideo.h">
       <Filter>Thumbnail\include</Filter>
@@ -97,15 +73,6 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="InfosSeparationBarExplorer.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="InfosSeparationBarFace.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ListFace.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="ListPicture.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="MainWindow.h">
@@ -138,9 +105,6 @@
     <ClInclude Include="PictureElement.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="FaceInfosUpdate.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="CheckVersion.h">
       <Filter>CheckVersion</Filter>
     </ClInclude>
@@ -149,21 +113,6 @@
     </ClInclude>
     <ClInclude Include="CentralWindow.h">
       <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="CriteriaWindow.h">
-      <Filter>Window</Filter>
-    </ClInclude>
-    <ClInclude Include="KeywordManagementWindow.h">
-      <Filter>Window\Keyword Management</Filter>
-    </ClInclude>
-    <ClInclude Include="KeywordWnd.h">
-      <Filter>Window\Keyword Management</Filter>
-    </ClInclude>
-    <ClInclude Include="KeywordWndToolbar.h">
-      <Filter>Window\Keyword Management</Filter>
-    </ClInclude>
-    <ClInclude Include="ToolbarKeyword.h">
-      <Filter>Window\Keyword Management</Filter>
     </ClInclude>
     <ClInclude Include="StatusText.h">
       <Filter>DataStructure</Filter>
@@ -185,24 +134,6 @@
     <ClCompile Include="ImageList.cpp">
       <Filter>DataStructure</Filter>
     </ClCompile>
-    <ClCompile Include="ThumbnailFace.cpp">
-      <Filter>Thumbnail\source</Filter>
-    </ClCompile>
-    <ClCompile Include="ThumbnailFacePertinenceToolBar.cpp">
-      <Filter>Thumbnail\source</Filter>
-    </ClCompile>
-    <ClCompile Include="ThumbnailFaceToolBar.cpp">
-      <Filter>Thumbnail\source</Filter>
-    </ClCompile>
-    <ClCompile Include="ThumbnailFolder.cpp">
-      <Filter>Thumbnail\source</Filter>
-    </ClCompile>
-    <ClCompile Include="ThumbnailToolBar.cpp">
-      <Filter>Thumbnail\source</Filter>
-    </ClCompile>
-    <ClCompile Include="ThumbnailToolBarZoom.cpp">
-      <Filter>Thumbnail\source</Filter>
-    </ClCompile>
     <ClCompile Include="ThumbnailViewerVideo.cpp">
       <Filter>Thumbnail\source</Filter>
     </ClCompile>
@@ -216,15 +147,6 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="InfosSeparationBarExplorer.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="InfosSeparationBarFace.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ListFace.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="ListPicture.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="MainWindow.cpp">
@@ -262,21 +184,6 @@
     </ClCompile>
     <ClCompile Include="CentralWindow.cpp">
       <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="CriteriaWindow.cpp">
-      <Filter>Window</Filter>
-    </ClCompile>
-    <ClCompile Include="KeywordManagementWindow.cpp">
-      <Filter>Window\Keyword Management</Filter>
-    </ClCompile>
-    <ClCompile Include="KeywordWnd.cpp">
-      <Filter>Window\Keyword Management</Filter>
-    </ClCompile>
-    <ClCompile Include="KeywordWndToolbar.cpp">
-      <Filter>Window\Keyword Management</Filter>
-    </ClCompile>
-    <ClCompile Include="ToolbarKeyword.cpp">
-      <Filter>Window\Keyword Management</Filter>
     </ClCompile>
     <ClCompile Include="PicturePanel.cpp">
       <Filter>Fichiers sources</Filter>

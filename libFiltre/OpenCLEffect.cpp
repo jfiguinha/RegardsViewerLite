@@ -4,11 +4,9 @@
 #include <MotionBlur.h>
 #include <ImageLoadingFormat.h>
 #define minmax
-#include <DeepLearning.h>
 #include <GLTexture.h>
 using namespace Regards::OpenCL;
 using namespace Regards::FiltreEffet;
-using namespace Regards::DeepLearning;
 
 #define NONE_FILTER 12
 

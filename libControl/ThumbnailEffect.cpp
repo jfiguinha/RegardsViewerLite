@@ -231,29 +231,6 @@ void CThumbnailEffect::SetFile(const wxString& filename, CImageLoadingFormat* im
 			thumbnailData->SetNumPhotoId(numEffect);
 			switch (numEffect)
 			{
-				/*
-			case IDM_FILTER_BM3D:
-				{
-					CRegardsBitmap* pBitmap = loadingResource.LoadRegardsBmpResource("IDB_FILTRE_BM3D");
-					thumbnailData->SetFilename(CFiltreData::GetFilterLabel(numEffect));
-					infosSeparationConvolutionEffect->AddPhotoToList(numElement);
-					CImageLoadingFormat image;
-					image.SetPicture(pBitmap, true);
-					thumbnailData->SetBitmap(&image);
-					break;
-				}
-				*/
-
-			case IDM_REDEYE:
-				{
-					wxImage pBitmap = loadingResource.LoadImageResource("IDB_REDEYE");
-					thumbnailData->SetFilename(CFiltreData::GetFilterLabel(numEffect));
-					infosSeparationSpecialEffect->AddPhotoToList(numElement);
-					thumbnailData->SetBitmap(pBitmap);
-					break;
-				}
-
-
 			case IDM_CROP:
 				{
 					wxImage pResBitmap = loadingResource.LoadImageResource("IDB_CROP");
