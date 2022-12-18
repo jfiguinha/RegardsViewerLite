@@ -309,7 +309,7 @@ public:
 
 	wxString GetAppName() override
 	{
-		return "RegardsViewer";
+		return "RegardsViewer Lite";
 	}
 
 	virtual void AddImageHandler(wxImageHandler* poHandler);

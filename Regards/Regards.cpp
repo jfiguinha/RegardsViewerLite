@@ -306,7 +306,7 @@ bool MyApp::OnInit()
 	wxXmlResource::Get()->LoadAllFiles(resourcePath + numIdLang);
 
 
-	frameStart = new MyFrameIntro("Welcome to Regards", "REGARDS V2", wxPoint(50, 50), wxSize(450, 340), this);
+	frameStart = new MyFrameIntro("Welcome to RegardsViewer Lite", "RegardsViewer Lite V2", wxPoint(50, 50), wxSize(450, 340), this);
 	frameStart->Centre(wxBOTH);
 	frameStart->Show(true);
 

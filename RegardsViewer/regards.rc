@@ -149,12 +149,12 @@ BEGIN
         BLOCK "040c04b0"
         BEGIN
             VALUE "CompanyName", "Figuinha"
-            VALUE "FileDescription", "Regards Viewer 2"
+            VALUE "FileDescription", "RegardsViewer Lite 2"
             VALUE "FileVersion", "2.74.2.0"
             VALUE "InternalName", "RegardsViewer.exe"
             VALUE "LegalCopyright", "Copyright (C) 2014 - 2022"
             VALUE "OriginalFilename", "RegardsViewer.exe"
-            VALUE "ProductName", "Regards Viewer 2"
+            VALUE "ProductName", "RegardsViewer Lite 2"
             VALUE "ProductVersion", "2.74.2.0"
         END
     END
