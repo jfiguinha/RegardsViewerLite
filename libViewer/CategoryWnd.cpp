@@ -466,15 +466,8 @@ wxString CCategoryWnd::GetSqlRequest()
 {
 	auto viewerParam = CMainParamInit::getInstance();
 	vector<int> listFolder;
-	vector<int> listFace;
 	vector<int> listFolderNotSelected;
-	vector<int> listFaceNotSelected;
-	vector<int> listFaceSelected;
 	vector<int> listCriteriaNotIn;
-	vector<int> listStarSelected;
-	vector<int> listStarNotSelected;
-	vector<int> listKeywordSelected;
-	vector<int> listKeywordNotSelected;
 	double pertinence = 0.0;
 
 	for (CPositionElement* value : vectorPosElementDynamic)
@@ -491,21 +484,6 @@ wxString CCategoryWnd::GetSqlRequest()
 					listCriteriaNotIn.push_back(treeData->GetIdElement());
 				else if (treeData->GetNumCategorie() == 2)
 					listFolderNotSelected.push_back(treeData->GetIdElement());
-				else if (treeData->GetNumCategorie() == 4)
-					listFaceNotSelected.push_back(treeData->GetIdElement());
-				else if (treeData->GetNumCategorie() == 6)
-					listStarNotSelected.push_back(treeData->GetIdElement());
-				else if (treeData->GetNumCategorie() == 7)
-					listKeywordNotSelected.push_back(treeData->GetIdElement());
-			}
-			else if (treeData->GetIdElement() != -1)
-			{
-				if (treeData->GetNumCategorie() == 4)
-					listFaceSelected.push_back(treeData->GetIdElement());
-				else if (treeData->GetNumCategorie() == 6)
-					listStarSelected.push_back(treeData->GetIdElement());
-				else if (treeData->GetNumCategorie() == 7)
-					listKeywordSelected.push_back(treeData->GetIdElement());
 			}
 		}
 	}
@@ -527,9 +505,7 @@ wxString CCategoryWnd::GetSqlRequest()
 
 	wxString libelleNotGeo = CLibResource::LoadStringFromResource("LBLNOTGEO", 1);
 	CSqlFindPhotos sqlFindPhotos;
-	sqlRequest = sqlFindPhotos.GenerateSqlRequest(NUMCATALOGID, listFolder, listCriteriaNotIn, listFaceNotSelected,
-	                                              listFaceSelected, listStarSelected, listStarNotSelected,
-	                                              listKeywordSelected, listKeywordNotSelected, libelleNotGeo,
+	sqlRequest = sqlFindPhotos.GenerateSqlRequest(NUMCATALOGID, listFolder, listCriteriaNotIn, libelleNotGeo,
 	                                              pertinence);
 
 	viewerParam->SetLastSqlRequest(sqlRequest);

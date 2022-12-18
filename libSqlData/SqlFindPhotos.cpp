@@ -115,7 +115,7 @@ bool CSqlFindPhotos::FindIfViewExist()
 	return (table_name  != "") ? true : false;
 }
 
-wxString CSqlFindPhotos::GenerateSqlRequest(const int &numCatalog, vector<int> & listFolder, vector<int> & listCriteriaNotIn, vector<int> & listFaceNotIn, vector<int> & listFaceSelected, vector<int> & listStarSelected, vector<int> & listStarNotSelected, vector<int> & listKeywordSelected, vector<int> & listKeywordNotSelected, const wxString &libelleNotGeo, const double & pertinence)
+wxString CSqlFindPhotos::GenerateSqlRequest(const int &numCatalog, vector<int> & listFolder, vector<int> & listCriteriaNotIn, const wxString &libelleNotGeo, const double & pertinence)
 {
     //Request In
 	time_t t = time(0);   // get time now
@@ -159,36 +159,6 @@ wxString CSqlFindPhotos::GenerateSqlRequest(const int &numCatalog, vector<int> &
             reqSQIn.append(GetSearchSQL(listCriteriaNotIn));
             reqSQIn.append(")");
         }
-
-		if(listFaceNotIn.size() > 0)
-		{
-			wxString value = wxString::Format(wxT("%f"), pertinence / 100.0f);
-            reqSQIn.append(" and PH.NumPhoto in (");
-            reqSQIn.append("select NumPhoto From Photos where FullPath in (Select distinct FullPath From FACE_RECOGNITION INNER JOIN FACEPHOTO ON FACEPHOTO.NumFace = FACE_RECOGNITION.NumFace WHERE FACEPHOTO.Pertinence > " + value + " and NumFaceCompatible in (");
-            reqSQIn.append(GetSearchSQL(listFaceSelected));
-            reqSQIn.append("))");
-		}
-
-		if (listStarSelected.size()  > 0 && listKeywordSelected.size() > 0)
-		{
-			reqSQIn.append(" and PH.NumPhoto in (");
-			reqSQIn.append("SELECT distinct PH.NumPhoto FROM PHOTOS as PH INNER JOIN PHOTOSCRITERIA as PHCR ON PH.NumPhoto = PHCR.NumPhoto INNER JOIN CRITERIA as CR ON CR.NumCriteria = PHCR.NumCriteria WHERE CR.NumCriteria in (");
-			reqSQIn.append(GetSearchSQL(listStarSelected));
-			reqSQIn.append(" INTERSECT ");
-			reqSQIn.append("SELECT distinct PH.NumPhoto FROM PHOTOS as PH INNER JOIN PHOTOSCRITERIA as PHCR ON PH.NumPhoto = PHCR.NumPhoto INNER JOIN CRITERIA as CR ON CR.NumCriteria = PHCR.NumCriteria WHERE CR.NumCriteria in (");
-			reqSQIn.append(GetSearchSQL(listKeywordSelected));
-			reqSQIn.append(")");
-		}
-		else if (listStarSelected.size() > 0 || listKeywordSelected.size() > 0)
-		{
-			reqSQIn.append(" and PH.NumPhoto in (");
-			reqSQIn.append("SELECT distinct PH.NumPhoto FROM PHOTOS as PH INNER JOIN PHOTOSCRITERIA as PHCR ON PH.NumPhoto = PHCR.NumPhoto INNER JOIN CRITERIA as CR ON CR.NumCriteria = PHCR.NumCriteria WHERE CR.NumCriteria in (");
-			if (listStarSelected.size() != 0)
-				reqSQIn.append(GetSearchSQL(listStarSelected));
-			else if (listKeywordSelected.size() != 0)
-				reqSQIn.append(GetSearchSQL(listKeywordSelected));
-			reqSQIn.append(")");
-		}
 
 		reqSQIn += ") Group By NumPhoto";
         printf("Requete Photos Search Criteria : %s \n", CConvertUtility::ConvertToUTF8(reqSQIn));
