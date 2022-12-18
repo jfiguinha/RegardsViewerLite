@@ -3,7 +3,7 @@
 
 #include "utility.h"
 #include <opencv2/xphoto.hpp>
-#include <opencv2/dnn_superres.hpp>
+//#include <opencv2/dnn_superres.hpp>
 #include <FileUtility.h>
 #include <mutex>
 #include <ParamInit.h>
@@ -18,8 +18,6 @@
 
 using namespace Regards::OpenCL;
 using namespace cv;
-using namespace dnn;
-using namespace dnn_superres;
 
 #define EDSR 0
 #define ESPCN 1
@@ -40,7 +38,7 @@ public:
 	bool TestIfMethodIsValid(int method, int scale);
 
 private:
-	DnnSuperResImpl sr;
+
 	int oldscale = -1;
 	int oldmethod = -1;
 };
