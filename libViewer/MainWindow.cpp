@@ -119,13 +119,6 @@ CMainWindow::CMainWindow(wxWindow* parent, wxWindowID id, IStatusBarInterface* s
 
 	if (viewerTheme != nullptr)
 	{
-		CThemeToolbar theme;
-		viewerTheme->GetMainToolbarTheme(&theme);
-		toolbar = new CToolbar(this, wxID_ANY, theme, false);
-	}
-
-	if (viewerTheme != nullptr)
-	{
 		CThemeSplitter theme;
 		viewerTheme->GetSplitterTheme(&theme);
 		centralWnd = new CCentralWindow(this, CENTRALVIEWERWINDOWID, theme, false);
@@ -159,7 +152,6 @@ CMainWindow::CMainWindow(wxWindow* parent, wxWindowID id, IStatusBarInterface* s
 
 	Connect(wxEVENT_PRINT, wxCommandEventHandler(CMainWindow::OnPrint));
 	Connect(wxEVENT_SETVALUEPROGRESSBAR, wxCommandEventHandler(CMainWindow::OnSetValueProgressBar));
-	Connect(wxEVENT_SHOWSCANNER, wxCommandEventHandler(CMainWindow::OnScanner));
 	Connect(wxEVENT_ENDVIDEOTHUMBNAIL, wxCommandEventHandler(CMainWindow::OnEndThumbnail));
 	Connect(wxEVENT_OPENFILEORFOLDER, wxCommandEventHandler(CMainWindow::OnOpenFileOrFolder));
 	Connect(wxEVENT_UPDATETHUMBNAILEXIF, wxCommandEventHandler(CMainWindow::OnUpdateExifThumbnail));
@@ -400,8 +392,6 @@ void CMainWindow::OnShowToolbar(wxCommandEvent& event)
 //---------------------------------------------------------------
 void CMainWindow::UpdateScreenRatio()
 {
-	
-	toolbar->UpdateScreenRatio();
 	centralWnd->UpdateScreenRatio();
 	this->Resize();
 }
@@ -844,9 +834,7 @@ void CMainWindow::CheckMD5(void* param)
 //---------------------------------------------------------------
 CMainWindow::~CMainWindow()
 {
-	
 	delete(centralWnd);
-	delete(toolbar);
 }
 
 //---------------------------------------------------------------
@@ -867,12 +855,10 @@ void CMainWindow::Resize()
 		wxSize sizeStatusBar = statusBar->GetSize();
 
 		rcAffichageBitmap.x = 0;
-		rcAffichageBitmap.y = toolbar->GetNavigatorHeight();
+		rcAffichageBitmap.y = 0;
 		rcAffichageBitmap.width = GetWindowWidth();
-		rcAffichageBitmap.height = GetWindowHeight() - toolbar->GetNavigatorHeight() - sizeStatusBar.y;
+		rcAffichageBitmap.height = GetWindowHeight() - sizeStatusBar.y;
 
-		toolbar->SetSize(rcAffichageBitmap.x, 0, rcAffichageBitmap.width, toolbar->GetNavigatorHeight());
-		toolbar->Refresh();
 		centralWnd->SetSize(rcAffichageBitmap.x, rcAffichageBitmap.y, rcAffichageBitmap.width,
 			rcAffichageBitmap.height);
 		centralWnd->Refresh();
@@ -995,12 +981,6 @@ void CMainWindow::OnEndThumbnail(wxCommandEvent& event)
 	if (*thumbName == localFilename)
 		centralWnd->OnEndThumbnail();
 	delete thumbName;
-}
-
-void CMainWindow::OnScanner(wxCommandEvent& event)
-{
-	
-	statusBarViewer->ShowScanner();
 }
 
 void CMainWindow::OnExit(wxCommandEvent& event)
@@ -1150,7 +1130,6 @@ bool CMainWindow::SetFullscreenMode()
 		{
 			is_work = true;
 			fullscreen = true;
-			toolbar->Show(false);
 			statusBar->Show(false);
 			wxCommandEvent event(wxEVENT_SETSCREEN);
 			wxPostEvent(this, event);
@@ -1169,7 +1148,6 @@ bool CMainWindow::SetScreen()
 		{
 			statusBarViewer->SetScreen();
 			fullscreen = false;
-			toolbar->Show(true);
 			statusBar->Show(true);
 			isWork = true;
 			wxCommandEvent event(wxEVENT_SETSCREEN);

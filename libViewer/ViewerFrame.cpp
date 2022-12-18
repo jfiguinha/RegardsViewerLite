@@ -181,8 +181,18 @@ CViewerFrame::CViewerFrame(const wxString& title, const wxPoint& pos, const wxSi
 	wxString labelHelp = CLibResource::LoadStringFromResource(L"labelHelp", 1); //L"&Help";
 
 	auto menuSizeIcon = new wxMenu;
+	
 	menuSizeIcon->Append(ID_SIZEICONLESS, labelDecreaseIconSize_link, labelDecreaseIconSize);
 	menuSizeIcon->Append(ID_SIZEICONMORE, labelEnlargeIconSize_link, labelEnlargeIconSize);
+
+	auto menuWindowIcon = new wxMenu;
+	wxString labelWindow = CLibResource::LoadStringFromResource(L"labelWindow", 1);
+	wxString labelViewerMode = CLibResource::LoadStringFromResource(L"labelViewerMode", 1);
+	wxString labelViewerMode_link = CLibResource::LoadStringFromResource(L"labelViewerMode_link", 1);
+	wxString labelPictureMode = CLibResource::LoadStringFromResource(L"labelPictureMode", 1);
+	wxString labelPictureMode_link = CLibResource::LoadStringFromResource(L"labelPictureMode_link", 1);
+	menuWindowIcon->Append(ID_VIEWERMODE, labelViewerMode_link, labelViewerMode);
+	menuWindowIcon->Append(ID_PICTUREMODE, labelPictureMode_link, labelPictureMode);
 
 	menuFile->Append(ID_Configuration, labelConfiguration_link, labelConfiguration);
 	menuFile->AppendSeparator();
@@ -206,6 +216,7 @@ CViewerFrame::CViewerFrame(const wxString& title, const wxPoint& pos, const wxSi
 	auto menuBar = new wxMenuBar;
 	menuBar->Append(menuFile, labelFile);
 	menuBar->Append(menuSizeIcon, labelSizeIcon);
+	menuBar->Append(menuWindowIcon, labelWindow);
 	menuBar->Append(menuHelp, labelHelp);
 	wxFrameBase::SetMenuBar(menuBar);
 
@@ -505,15 +516,6 @@ void CViewerFrame::OnKeyDown(wxKeyEvent& event)
 				if(pictureEndLoading)
 					loadPictureTimer->Start(200, true);
 				pictureEndLoading = false;
-				/*
-				printf("Image Suivante \n");
-				wxWindow* mainWindow = this->FindWindowById(CENTRALVIEWERWINDOWID);
-				if (mainWindow != nullptr)
-				{
-					wxCommandEvent evt(wxEVENT_PICTURENEXT);
-					mainWindow->GetEventHandler()->AddPendingEvent(evt);
-				}
-				*/
 			}
 			break;
 
@@ -545,6 +547,18 @@ void CViewerFrame::OnKeyDown(wxKeyEvent& event)
 			}
 			break;
 
+		case WXK_F3:
+		{
+			ViewerMode();
+		}
+		break;
+
+		case WXK_F4:
+		{
+			PictureMode();
+		}
+		break;
+
 		case WXK_F5:
 			{
 				if (!fullscreen)
@@ -559,6 +573,34 @@ void CViewerFrame::OnKeyDown(wxKeyEvent& event)
 	}
 	event.Skip();
 }
+
+
+void CViewerFrame::ViewerMode()
+{
+	wxWindow* central = this->FindWindowById(CENTRALVIEWERWINDOWID);
+	wxCommandEvent event(wxEVENT_SETMODEVIEWER);
+	event.SetInt(1);
+	wxPostEvent(central, event);
+}
+
+void CViewerFrame::PictureMode()
+{
+	wxWindow* central = this->FindWindowById(CENTRALVIEWERWINDOWID);
+	wxCommandEvent event(wxEVENT_SETMODEVIEWER);
+	event.SetInt(4);
+	wxPostEvent(central, event);
+}
+
+void CViewerFrame::OnViewerMode(wxCommandEvent& event)
+{
+	ViewerMode();
+}
+
+void CViewerFrame::OnPictureMode(wxCommandEvent& event)
+{
+	PictureMode();
+}
+
 
 void CViewerFrame::SetFullscreen()
 {
@@ -840,6 +882,8 @@ wxBEGIN_EVENT_TABLE(CViewerFrame, wxFrame)
 	EVT_MENU(ID_Configuration, CViewerFrame::OnConfiguration)
 	EVT_MENU(ID_SIZEICONLESS, CViewerFrame::OnIconSizeLess)
 	EVT_MENU(ID_SIZEICONMORE, CViewerFrame::OnIconSizeMore)
+	EVT_MENU(ID_VIEWERMODE, CViewerFrame::OnViewerMode)
+	EVT_MENU(ID_PICTUREMODE, CViewerFrame::OnPictureMode)
 	EVT_MENU(ID_ERASEDATABASE, CViewerFrame::OnEraseDatabase)
 	//EVT_MENU(ID_INTERPOLATIONFILTER, CViewerFrame::OnInterpolationFilter)
 	EVT_MENU(wxID_ABOUT, CViewerFrame::OnAbout)

@@ -34,6 +34,8 @@ namespace Regards
 			ID_CATEGORYDETECTION = 14,
 			ID_ASSOCIATE = 15,
 			ID_ExternalProgram = 16,
+			ID_VIEWERMODE = 17,
+			ID_PICTUREMODE = 18,
 			ID_VIDEO = 1018,
 			ID_AUDIO = 1019,
 			ID_SUBTITLE = 1020,
@@ -76,6 +78,10 @@ namespace Regards
 
 		private:
 
+
+			void ViewerMode();
+			void PictureMode();
+
 #ifdef WIN32
 			void OnAssociate(wxCommandEvent& event);
 #endif
@@ -83,6 +89,8 @@ namespace Regards
 			void OnHelp(wxCommandEvent& event);
 			void OnIconSizeLess(wxCommandEvent& event);
 			void OnIconSizeMore(wxCommandEvent& event);
+			void OnViewerMode(wxCommandEvent& event);
+			void OnPictureMode(wxCommandEvent& event);
 			void OnPictureEndLoading(wxCommandEvent& event);
 			void OnKeyDown(wxKeyEvent& event);
 			void OnKeyUp(wxKeyEvent& event);

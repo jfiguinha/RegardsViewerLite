@@ -66,8 +66,6 @@ namespace Regards
 			void OnSetValueProgressBar(wxCommandEvent& event);
 
 			void OnRefreshPicture(wxCommandEvent& event);
-			void OnScanner(wxCommandEvent& event);
-
 			void UpdateStatusBarMessage(wxCommandEvent& event);
 
 			void OnExit(wxCommandEvent& event);
@@ -104,7 +102,6 @@ namespace Regards
 			bool fullscreen;
 			wxGauge* progressBar;
 			wxStatusBar* statusBar;
-			CToolbar* toolbar;
 			CCentralWindow* centralWnd;
 
 			IStatusBarInterface* statusBarViewer;
